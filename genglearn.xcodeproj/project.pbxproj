@@ -1,0 +1,373 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B137D36729488BB800DE5C75 /* nginx.swift in Sources */ = {isa = PBXBuildFile; fileRef = B137D36629488BB800DE5C75 /* nginx.swift */; };
+		B137D36929488C5500DE5C75 /* mysql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B137D36829488C5500DE5C75 /* mysql.swift */; };
+		B137D36B29488C7800DE5C75 /* php.swift in Sources */ = {isa = PBXBuildFile; fileRef = B137D36A29488C7800DE5C75 /* php.swift */; };
+		B137D36D29488C9F00DE5C75 /* redis.swift in Sources */ = {isa = PBXBuildFile; fileRef = B137D36C29488C9F00DE5C75 /* redis.swift */; };
+		B1CDE8DB29484BB00079D226 /* genglearnApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CDE8DA29484BB00079D226 /* genglearnApp.swift */; };
+		B1CDE8DD29484BB00079D226 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CDE8DC29484BB00079D226 /* ContentView.swift */; };
+		B1CDE8DF29484BB10079D226 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1CDE8DE29484BB10079D226 /* Assets.xcassets */; };
+		B1CDE8E229484BB10079D226 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1CDE8E129484BB10079D226 /* Preview Assets.xcassets */; };
+		B1EA231F2948761E00AAD3FD /* home.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EA231E2948761E00AAD3FD /* home.swift */; };
+		B1EA23212948768F00AAD3FD /* web.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EA23202948768F00AAD3FD /* web.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		B137D36629488BB800DE5C75 /* nginx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nginx.swift; sourceTree = "<group>"; };
+		B137D36829488C5500DE5C75 /* mysql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mysql.swift; sourceTree = "<group>"; };
+		B137D36A29488C7800DE5C75 /* php.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = php.swift; sourceTree = "<group>"; };
+		B137D36C29488C9F00DE5C75 /* redis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = redis.swift; sourceTree = "<group>"; };
+		B1CDE8D729484BB00079D226 /* GengPHP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GengPHP.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1CDE8DA29484BB00079D226 /* genglearnApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = genglearnApp.swift; sourceTree = "<group>"; };
+		B1CDE8DC29484BB00079D226 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B1CDE8DE29484BB10079D226 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B1CDE8E129484BB10079D226 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B1CDE8E329484BB10079D226 /* genglearn.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = genglearn.entitlements; sourceTree = "<group>"; };
+		B1EA231E2948761E00AAD3FD /* home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = home.swift; sourceTree = "<group>"; };
+		B1EA23202948768F00AAD3FD /* web.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = web.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B1CDE8D429484BB00079D226 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B1CDE8CE29484BAF0079D226 = {
+			isa = PBXGroup;
+			children = (
+				B1CDE8D929484BB00079D226 /* genglearn */,
+				B1CDE8D829484BB00079D226 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B1CDE8D829484BB00079D226 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B1CDE8D729484BB00079D226 /* GengPHP.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B1CDE8D929484BB00079D226 /* genglearn */ = {
+			isa = PBXGroup;
+			children = (
+				B1CDE8DA29484BB00079D226 /* genglearnApp.swift */,
+				B1CDE8DC29484BB00079D226 /* ContentView.swift */,
+				B137D36629488BB800DE5C75 /* nginx.swift */,
+				B137D36A29488C7800DE5C75 /* php.swift */,
+				B137D36C29488C9F00DE5C75 /* redis.swift */,
+				B137D36829488C5500DE5C75 /* mysql.swift */,
+				B1EA231E2948761E00AAD3FD /* home.swift */,
+				B1EA23202948768F00AAD3FD /* web.swift */,
+				B1CDE8DE29484BB10079D226 /* Assets.xcassets */,
+				B1CDE8E329484BB10079D226 /* genglearn.entitlements */,
+				B1CDE8E029484BB10079D226 /* Preview Content */,
+			);
+			path = genglearn;
+			sourceTree = "<group>";
+		};
+		B1CDE8E029484BB10079D226 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				B1CDE8E129484BB10079D226 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B1CDE8D629484BB00079D226 /* genglearn */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B1CDE8E629484BB10079D226 /* Build configuration list for PBXNativeTarget "genglearn" */;
+			buildPhases = (
+				B1CDE8D329484BB00079D226 /* Sources */,
+				B1CDE8D429484BB00079D226 /* Frameworks */,
+				B1CDE8D529484BB00079D226 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = genglearn;
+			productName = genglearn;
+			productReference = B1CDE8D729484BB00079D226 /* GengPHP.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B1CDE8CF29484BAF0079D226 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1410;
+				LastUpgradeCheck = 1410;
+				TargetAttributes = {
+					B1CDE8D629484BB00079D226 = {
+						CreatedOnToolsVersion = 14.1;
+					};
+				};
+			};
+			buildConfigurationList = B1CDE8D229484BAF0079D226 /* Build configuration list for PBXProject "genglearn" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = B1CDE8CE29484BAF0079D226;
+			productRefGroup = B1CDE8D829484BB00079D226 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B1CDE8D629484BB00079D226 /* genglearn */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B1CDE8D529484BB00079D226 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B1CDE8E229484BB10079D226 /* Preview Assets.xcassets in Resources */,
+				B1CDE8DF29484BB10079D226 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B1CDE8D329484BB00079D226 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B1EA231F2948761E00AAD3FD /* home.swift in Sources */,
+				B137D36729488BB800DE5C75 /* nginx.swift in Sources */,
+				B137D36929488C5500DE5C75 /* mysql.swift in Sources */,
+				B137D36B29488C7800DE5C75 /* php.swift in Sources */,
+				B1CDE8DD29484BB00079D226 /* ContentView.swift in Sources */,
+				B137D36D29488C9F00DE5C75 /* redis.swift in Sources */,
+				B1EA23212948768F00AAD3FD /* web.swift in Sources */,
+				B1CDE8DB29484BB00079D226 /* genglearnApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		B1CDE8E429484BB10079D226 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.6;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		B1CDE8E529484BB10079D226 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.6;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		B1CDE8E729484BB10079D226 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = genglearn/genglearn.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"genglearn/Preview Content\"";
+				DEVELOPMENT_TEAM = W788G6XA75;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = GengPHP;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = geng.genglearn;
+				PRODUCT_NAME = GengPHP;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		B1CDE8E829484BB10079D226 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = genglearn/genglearn.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"genglearn/Preview Content\"";
+				DEVELOPMENT_TEAM = W788G6XA75;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = GengPHP;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = geng.genglearn;
+				PRODUCT_NAME = GengPHP;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B1CDE8D229484BAF0079D226 /* Build configuration list for PBXProject "genglearn" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B1CDE8E429484BB10079D226 /* Debug */,
+				B1CDE8E529484BB10079D226 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B1CDE8E629484BB10079D226 /* Build configuration list for PBXNativeTarget "genglearn" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B1CDE8E729484BB10079D226 /* Debug */,
+				B1CDE8E829484BB10079D226 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B1CDE8CF29484BAF0079D226 /* Project object */;
+}
