@@ -32,26 +32,131 @@ func shell(_ args: [String]) -> String {
     task.waitUntilExit()
     let data = pipe.fileHandleForReading.readDataToEndOfFile()
     let output: String = NSString(data: data, encoding: String.Encoding.utf8.rawValue)! as String
-    return output;
+    return output
+}
+
+struct installItem: View {
+    @State var hoverDisplay = false
+    var logo: String
+    var logoContent: String
+    var logoColor:String
+    var hoverText:String
+    var installAction: () -> Void
+    var body: some View {
+        ZStack {
+            VStack(spacing: 1) {
+                Image(logo).resizable()
+                    .interpolation(.high)
+                    .frame(width: 25, height: 25)
+                Text(logoContent)
+            }
+            .frame(width: 55, height: 55)
+            .background(Color(logoColor))
+            .cornerRadius(10)
+            .onHover(perform: {
+                h in
+                hoverDisplay = h
+            })
+
+            if self.hoverDisplay {
+                VStack(spacing: 1) {
+                    Text(hoverText).fontWeight(.medium)
+                }
+                .frame(width: 55, height: 55)
+                .contentShape(Rectangle())
+                .onTapGesture(perform: {
+                    installAction()
+                })
+                .background(Color.black.opacity(0.8))
+                .cornerRadius(10)
+            }
+        }
+    }
+}
+
+struct installModel: View {
+    @Binding var showInstall: Bool
+    var body: some View {
+        VStack(spacing: 10) {
+            HStack(spacing: 12) {
+                installItem(logo: "nginx", logoContent: "nginx", logoColor: "nginx", hoverText:"install", installAction: {})
+                installItem(logo: "php", logoContent: "Php", logoColor: "php",hoverText:"install",installAction: {})
+                installItem(logo: "mysql", logoContent: "Mysql", logoColor: "mysql",hoverText:"install",installAction: {})
+                installItem(logo: "apache", logoContent: "Apache", logoColor: "apache",hoverText:"install",installAction: {})
+            }
+            HStack(spacing: 12) {
+                installItem(logo: "brew", logoContent: "brew", logoColor: "brew",hoverText:"install",installAction: {})
+                installItem(logo: "mirror", logoContent: "Mirror", logoColor: "mirror",hoverText:"change",installAction: {})
+                installItem(logo: "origin", logoContent: "Origin", logoColor: "main4",hoverText:"change",installAction: {})
+                Spacer().frame(width: 55, height: 55)
+         
+            }
+            Text("Close")
+                .frame(width: 100, height: 30)
+                .contentShape(Rectangle())
+                .onTapGesture(perform: {
+                    self.showInstall = false
+                })
+                .background(Color("main4"))
+                .cornerRadius(10)
+        }
+        .frame(width: 300, height: 200)
+        .background(Color("mainbg"))
+    }
+}
+
+struct showInstallPreview: PreviewProvider {
+    @State static var showInstall = false
+    static var previews: some View {
+        VStack {
+            HStack {
+                installModel(showInstall: $showInstall)
+            }
+        }
+    }
 }
 
 struct home: View {
-    @State var consoleInfo:[String] = ["Nginx started successfully!"]
+    @State var consoleInfo: [String] = ["Nginx started successfully!"]
+    @State var showInstall = false
     var body: some View {
         VStack {
             HStack {
                 Text("Panel")
                     .foregroundColor(Color("maintext"))
                 Spacer()
-                Text("install").frame(width: 65, height: 20)
+                
+                Text("Test").frame(width: 65, height: 25)
+                    .contentShape(Rectangle())
                     .onTapGesture(perform: {
-                        print(shell(["pwd"]));
-                        self.consoleInfo.append(shell(["pwd"]))
+                        //print(shell(["brew install wget"]))
+                        self.consoleInfo.append(shell(["brew -v"]))
                     })
                     .foregroundColor(Color.white)
                     .background(Color("main4"))
                     .cornerRadius(5)
                 
+                
+                
+                Text("Install").frame(width: 65, height: 25)
+                    .contentShape(Rectangle())
+                    .onTapGesture(perform: {
+                        print(shell(["pwd"]))
+                        self.showInstall = true
+                        // self.consoleInfo.append(shell(["pwd"]))
+                    }).sheet(isPresented: $showInstall, content: {
+                        VStack {
+                            HStack {
+                                installModel(showInstall: $showInstall)
+                            }
+                        }
+                        .frame(width: 300, height: 200)
+                        .background(Color("mainbg"))
+                    })
+                    .foregroundColor(Color.white)
+                    .background(Color("main4"))
+                    .cornerRadius(5)
+
             }.frame(width: 550, height: 28)
             VStack(spacing: 15) {
                 Spacer()
@@ -77,7 +182,7 @@ struct home: View {
                             .frame(width: 13, height: 10)
                     }
                     .frame(width: 60, alignment: .leading)
-                    
+
                     HStack(spacing: 5) {
                         Circle().fill(Color("healthy"))
                             .frame(width: 10, height: 10)
@@ -91,15 +196,15 @@ struct home: View {
                     }.frame(width: 60, alignment: .leading)
 
                     HStack {
-                        Text("stop").frame(width: 45, height: 20)
+                        Text("stop").frame(width: 45, height: 22)
                             .foregroundColor(Color.white)
                             .background(Color("danger"))
                             .cornerRadius(5)
-                        Text("restart").frame(width: 60, height: 20)
+                        Text("restart").frame(width: 60, height: 22)
                             .foregroundColor(Color.white)
                             .background(Color("main4"))
                             .cornerRadius(5)
-                        Text("Setting").frame(width: 65, height: 20)
+                        Text("Setting").frame(width: 65, height: 22)
                             .foregroundColor(Color.white)
                             .background(Color("info"))
                             .cornerRadius(5)
@@ -108,7 +213,7 @@ struct home: View {
                 }
                 .frame(width: 550, height: 20)
                 .foregroundColor(Color.white)
-                
+
                 HStack {
                     Text("Php")
                         .frame(width: 60, alignment: .leading)
@@ -118,7 +223,7 @@ struct home: View {
                             .frame(width: 11, height: 11)
                     }
                     .frame(width: 60, alignment: .leading)
-                    
+
                     HStack(spacing: 5) {
                         Circle().fill(Color("danger"))
                             .frame(width: 10, height: 10)
@@ -132,15 +237,15 @@ struct home: View {
                     }.frame(width: 60, alignment: .leading)
 
                     HStack {
-                        Text("start").frame(width: 45, height: 20)
+                        Text("start").frame(width: 45, height: 22)
                             .foregroundColor(Color.white)
                             .background(Color("main4"))
                             .cornerRadius(5)
-                        Text("restart").frame(width: 60, height: 20)
+                        Text("restart").frame(width: 60, height: 22)
                             .foregroundColor(Color.white)
                             .background(Color("main4"))
                             .cornerRadius(5)
-                        Text("Setting").frame(width: 65, height: 20)
+                        Text("Setting").frame(width: 65, height: 22)
                             .foregroundColor(Color.white)
                             .background(Color("info"))
                             .cornerRadius(5)
@@ -165,17 +270,15 @@ struct home: View {
                 Spacer()
             }.frame(width: 550, height: 28)
             VStack {
-                ScrollView(showsIndicators: false){
-                    VStack(spacing:3){
-                        
-                        ForEach(self.consoleInfo,id:\.self){
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 3) {
+                        ForEach(self.consoleInfo, id: \.self) {
                             item in
                             Text(item)
                         }
-                        
+
                     }.frame(width: 500, alignment: .topLeading)
-                }.frame(width: 500, height: 105,alignment: .topLeading)
-                
+                }.frame(width: 500, height: 105, alignment: .topLeading)
             }
             .frame(width: 550, height: 140)
             .background(Color("mainbg"))
