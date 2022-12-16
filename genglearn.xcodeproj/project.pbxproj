@@ -11,6 +11,7 @@
 		B137D36929488C5500DE5C75 /* mysql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B137D36829488C5500DE5C75 /* mysql.swift */; };
 		B137D36B29488C7800DE5C75 /* php.swift in Sources */ = {isa = PBXBuildFile; fileRef = B137D36A29488C7800DE5C75 /* php.swift */; };
 		B137D36D29488C9F00DE5C75 /* redis.swift in Sources */ = {isa = PBXBuildFile; fileRef = B137D36C29488C9F00DE5C75 /* redis.swift */; };
+		B1B45E9C294CABB100DFFA08 /* fileOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B45E9B294CABB100DFFA08 /* fileOperations.swift */; };
 		B1CDE8DB29484BB00079D226 /* genglearnApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CDE8DA29484BB00079D226 /* genglearnApp.swift */; };
 		B1CDE8DD29484BB00079D226 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CDE8DC29484BB00079D226 /* ContentView.swift */; };
 		B1CDE8DF29484BB10079D226 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1CDE8DE29484BB10079D226 /* Assets.xcassets */; };
@@ -24,6 +25,7 @@
 		B137D36829488C5500DE5C75 /* mysql.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mysql.swift; sourceTree = "<group>"; };
 		B137D36A29488C7800DE5C75 /* php.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = php.swift; sourceTree = "<group>"; };
 		B137D36C29488C9F00DE5C75 /* redis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = redis.swift; sourceTree = "<group>"; };
+		B1B45E9B294CABB100DFFA08 /* fileOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fileOperations.swift; sourceTree = "<group>"; };
 		B1CDE8D729484BB00079D226 /* GengPHP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GengPHP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1CDE8DA29484BB00079D226 /* genglearnApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = genglearnApp.swift; sourceTree = "<group>"; };
 		B1CDE8DC29484BB00079D226 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 				B137D36829488C5500DE5C75 /* mysql.swift */,
 				B1EA231E2948761E00AAD3FD /* home.swift */,
 				B1EA23202948768F00AAD3FD /* web.swift */,
+				B1B45E9B294CABB100DFFA08 /* fileOperations.swift */,
 				B1CDE8DE29484BB10079D226 /* Assets.xcassets */,
 				B1CDE8E329484BB10079D226 /* genglearn.entitlements */,
 				B1CDE8E029484BB10079D226 /* Preview Content */,
@@ -103,6 +106,8 @@
 			dependencies = (
 			);
 			name = genglearn;
+			packageProductDependencies = (
+			);
 			productName = genglearn;
 			productReference = B1CDE8D729484BB00079D226 /* GengPHP.app */;
 			productType = "com.apple.product-type.application";
@@ -131,6 +136,8 @@
 				Base,
 			);
 			mainGroup = B1CDE8CE29484BAF0079D226;
+			packageReferences = (
+			);
 			productRefGroup = B1CDE8D829484BB00079D226 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -161,6 +168,7 @@
 				B137D36729488BB800DE5C75 /* nginx.swift in Sources */,
 				B137D36929488C5500DE5C75 /* mysql.swift in Sources */,
 				B137D36B29488C7800DE5C75 /* php.swift in Sources */,
+				B1B45E9C294CABB100DFFA08 /* fileOperations.swift in Sources */,
 				B1CDE8DD29484BB00079D226 /* ContentView.swift in Sources */,
 				B137D36D29488C9F00DE5C75 /* redis.swift in Sources */,
 				B1EA23212948768F00AAD3FD /* web.swift in Sources */,
@@ -291,6 +299,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = genglearn/genglearn.entitlements;
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -298,6 +307,7 @@
 				DEVELOPMENT_TEAM = W788G6XA75;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = GengPHP;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
@@ -322,6 +332,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = genglearn/genglearn.entitlements;
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -329,6 +340,7 @@
 				DEVELOPMENT_TEAM = W788G6XA75;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = GengPHP;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";

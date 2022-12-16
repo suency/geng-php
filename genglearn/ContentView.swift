@@ -7,6 +7,24 @@
 
 import SwiftUI
 
+@discardableResult
+func shell(_ args: String) -> String {
+    var outstr = ""
+    let task = Process()
+    task.launchPath = "/bin/zsh"
+    task.environment = ["PATH": "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin"]
+    task.arguments = ["-c", args]
+    let pipe = Pipe()
+    task.standardOutput = pipe
+    task.launch()
+    let data = pipe.fileHandleForReading.readDataToEndOfFile()
+    if let output = String(data: data, encoding: .utf8) {
+        outstr = output as String
+    }
+    task.waitUntilExit()
+    return outstr
+}
+
 struct ContentView: View {
     @State var menuList = [
         menuItem(imageName: "home", manuName: "home", selected: true, myview: AnyView(home())),

@@ -21,26 +21,12 @@ struct Triangle: Shape {
     }
 }
 
-@discardableResult
-func shell(_ args: [String]) -> String {
-    let task = Process()
-    task.launchPath = "/usr/bin/env"
-    task.arguments = args
-    let pipe = Pipe()
-    task.standardOutput = pipe
-    task.launch()
-    task.waitUntilExit()
-    let data = pipe.fileHandleForReading.readDataToEndOfFile()
-    let output: String = NSString(data: data, encoding: String.Encoding.utf8.rawValue)! as String
-    return output
-}
-
 struct installItem: View {
     @State var hoverDisplay = false
     var logo: String
     var logoContent: String
-    var logoColor:String
-    var hoverText:String
+    var logoColor: String
+    var hoverText: String
     var installAction: () -> Void
     var body: some View {
         ZStack {
@@ -79,17 +65,16 @@ struct installModel: View {
     var body: some View {
         VStack(spacing: 10) {
             HStack(spacing: 12) {
-                installItem(logo: "nginx", logoContent: "nginx", logoColor: "nginx", hoverText:"install", installAction: {})
-                installItem(logo: "php", logoContent: "Php", logoColor: "php",hoverText:"install",installAction: {})
-                installItem(logo: "mysql", logoContent: "Mysql", logoColor: "mysql",hoverText:"install",installAction: {})
-                installItem(logo: "apache", logoContent: "Apache", logoColor: "apache",hoverText:"install",installAction: {})
+                installItem(logo: "nginx", logoContent: "nginx", logoColor: "nginx", hoverText: "install", installAction: {})
+                installItem(logo: "php", logoContent: "Php", logoColor: "php", hoverText: "install", installAction: {})
+                installItem(logo: "mysql", logoContent: "Mysql", logoColor: "mysql", hoverText: "install", installAction: {})
+                installItem(logo: "apache", logoContent: "Apache", logoColor: "apache", hoverText: "install", installAction: {})
             }
             HStack(spacing: 12) {
-                installItem(logo: "brew", logoContent: "brew", logoColor: "brew",hoverText:"install",installAction: {})
-                installItem(logo: "mirror", logoContent: "Mirror", logoColor: "mirror",hoverText:"change",installAction: {})
-                installItem(logo: "origin", logoContent: "Origin", logoColor: "main4",hoverText:"change",installAction: {})
+                installItem(logo: "brew", logoContent: "brew", logoColor: "brew", hoverText: "install", installAction: {})
+                installItem(logo: "mirror", logoContent: "Mirror", logoColor: "mirror", hoverText: "change", installAction: {})
+                installItem(logo: "origin", logoContent: "Origin", logoColor: "main4", hoverText: "change", installAction: {})
                 Spacer().frame(width: 55, height: 55)
-         
             }
             Text("Close")
                 .frame(width: 100, height: 30)
@@ -105,6 +90,7 @@ struct installModel: View {
     }
 }
 
+
 struct showInstallPreview: PreviewProvider {
     @State static var showInstall = false
     static var previews: some View {
@@ -117,7 +103,7 @@ struct showInstallPreview: PreviewProvider {
 }
 
 struct home: View {
-    @State var consoleInfo: [String] = ["Nginx started successfully!"]
+    @State var consoleInfo: [String] = []
     @State var showInstall = false
     var body: some View {
         VStack {
@@ -125,25 +111,20 @@ struct home: View {
                 Text("Panel")
                     .foregroundColor(Color("maintext"))
                 Spacer()
-                
+
                 Text("Test").frame(width: 65, height: 25)
                     .contentShape(Rectangle())
                     .onTapGesture(perform: {
-                        //print(shell(["brew install wget"]))
-                        self.consoleInfo.append(shell(["brew -v"]))
+                        
                     })
                     .foregroundColor(Color.white)
                     .background(Color("main4"))
                     .cornerRadius(5)
-                
-                
-                
+
                 Text("Install").frame(width: 65, height: 25)
                     .contentShape(Rectangle())
                     .onTapGesture(perform: {
-                        print(shell(["pwd"]))
                         self.showInstall = true
-                        // self.consoleInfo.append(shell(["pwd"]))
                     }).sheet(isPresented: $showInstall, content: {
                         VStack {
                             HStack {
@@ -268,6 +249,17 @@ struct home: View {
                 Text("Log")
                     .foregroundColor(Color("maintext"))
                 Spacer()
+                Text("Clear").frame(width: 65, height: 25)
+                    .contentShape(Rectangle())
+                    .onTapGesture(
+                        perform: {
+                            self.consoleInfo = []
+                        }
+                    )
+                    .foregroundColor(Color.white)
+                    .background(Color("main4"))
+                    .cornerRadius(5)
+
             }.frame(width: 550, height: 28)
             VStack {
                 ScrollView(showsIndicators: false) {
