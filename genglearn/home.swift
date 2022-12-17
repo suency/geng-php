@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import ShellOut
+import SwiftShell
 import SwiftUI
 
 struct Triangle: Shape {
@@ -90,7 +92,6 @@ struct installModel: View {
     }
 }
 
-
 struct showInstallPreview: PreviewProvider {
     @State static var showInstall = false
     static var previews: some View {
@@ -103,8 +104,11 @@ struct showInstallPreview: PreviewProvider {
 }
 
 struct home: View {
-    @State var consoleInfo: [String] = []
+    // @State var consoleInfo: [String] = []
+    @State var consoleInfoPipe: String = ""
     @State var showInstall = false
+    var topID = UUID()
+    var bottomID = UUID()
     var body: some View {
         VStack {
             HStack {
@@ -115,7 +119,17 @@ struct home: View {
                 Text("Test").frame(width: 65, height: 25)
                     .contentShape(Rectangle())
                     .onTapGesture(perform: {
-                        
+                        /*
+                         let command = runAsync("/bin/zsh", "while true;do echo 1;sleep 1;done").onCompletion { command in
+
+                         }
+                         command.stdout.onOutput { stdout in
+                             print(stdout)
+
+                         }*/
+                        let a = runGengShell(log: self.$consoleInfoPipe)
+                        a.runCode("ping -c 115 127.0.0.1")
+                        // a.runCode("brew -v")
                     })
                     .foregroundColor(Color.white)
                     .background(Color("main4"))
@@ -128,7 +142,7 @@ struct home: View {
                     }).sheet(isPresented: $showInstall, content: {
                         VStack {
                             HStack {
-                                installModel(showInstall: $showInstall)
+                                // installModel(showInstall: $showInstall)
                             }
                         }
                         .frame(width: 300, height: 200)
@@ -253,7 +267,7 @@ struct home: View {
                     .contentShape(Rectangle())
                     .onTapGesture(
                         perform: {
-                            self.consoleInfo = []
+                            self.consoleInfoPipe = ""
                         }
                     )
                     .foregroundColor(Color.white)
@@ -262,15 +276,24 @@ struct home: View {
 
             }.frame(width: 550, height: 28)
             VStack {
-                ScrollView(showsIndicators: false) {
-                    VStack(spacing: 3) {
-                        ForEach(self.consoleInfo, id: \.self) {
-                            item in
-                            Text(item)
-                        }
+                ScrollViewReader { proxy in
+                    ScrollView(showsIndicators: false) {
+                        VStack(spacing: 3) {
+                            Text(self.consoleInfoPipe)
 
-                    }.frame(width: 500, alignment: .topLeading)
-                }.frame(width: 500, height: 105, alignment: .topLeading)
+                            Spacer().frame(width: 1, height: 1).id(bottomID)
+                        }
+                        .onChange(of: self.consoleInfoPipe, perform: {
+                            _ in
+
+                            let rowCount = self.consoleInfoPipe.filter { $0 == "\n" }.count
+                            if rowCount > 6 {
+                                proxy.scrollTo(bottomID, anchor: .top)
+                            }
+                        })
+                        .frame(width: 500, alignment: .topLeading)
+                    }.frame(width: 500, height: 105, alignment: .topLeading)
+                }
             }
             .frame(width: 550, height: 140)
             .background(Color("mainbg"))

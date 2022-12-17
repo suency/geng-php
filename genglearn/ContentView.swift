@@ -8,7 +8,7 @@
 import SwiftUI
 
 @discardableResult
-func shell(_ args: String) -> String {
+func shellGeng(_ args: String) -> String {
     var outstr = ""
     let task = Process()
     task.launchPath = "/bin/zsh"
@@ -23,6 +23,62 @@ func shell(_ args: String) -> String {
     }
     task.waitUntilExit()
     return outstr
+}
+
+struct runGengShell {
+    @Binding var log:String
+    func runCode(_ args: String) {
+        let task = Process()
+        task.launchPath = "/bin/zsh"
+        task.environment = ["PATH": "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin"]
+        task.arguments = ["-c", args]
+        let outputPipe = Pipe()
+        task.standardOutput = outputPipe
+        let outputHandle = outputPipe.fileHandleForReading
+        outputHandle.readabilityHandler = { pipe in
+            if let ouput = String(data: pipe.availableData, encoding: .utf8) {
+                if !ouput.isEmpty {
+                    log += ouput
+                    //print("----> ouput: \(ouput) ")
+                }
+            } else {
+                print("Error decoding data: \(pipe.availableData)")
+            }
+        }
+        task.launch()
+    }
+}
+
+struct MainView888: View {
+    @State var log: String = "testing"
+    
+    var body: some View {
+        Text(log)
+            .onAppear {
+               runCode()
+            }
+            .frame(width: 444, height: 444)
+    }
+    
+    func runCode() {
+        let task = Process()
+        task.executableURL = URL(fileURLWithPath: "/sbin/ping")
+        task.arguments = [ "-c", "100", "127.0.0.1" ]
+        let outputPipe = Pipe()
+        task.standardOutput = outputPipe
+        let outputHandle = outputPipe.fileHandleForReading
+        outputHandle.readabilityHandler = { pipe in
+            if let ouput = String(data: pipe.availableData, encoding: .utf8) {
+                if !ouput.isEmpty {
+                    log += ouput
+                    print("----> ouput: \(ouput)")
+                }
+            } else {
+                print("Error decoding data: \(pipe.availableData)")
+            }
+        }
+        task.launch()
+    }
 }
 
 struct ContentView: View {

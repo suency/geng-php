@@ -8,7 +8,7 @@
 import Foundation
 
 // create folder at spicific location
-func createFolder(name: String, baseUrl: NSURL) {
+func createFolderGeng(name: String, baseUrl: NSURL) {
     let manager = FileManager.default
     let folder = baseUrl.appendingPathComponent(name, isDirectory: true)
     print("folder: \(folder!)")
@@ -22,7 +22,7 @@ func createFolder(name: String, baseUrl: NSURL) {
 }
 
 // create file at spicific location
-func createEmptyFile(name: String, fileBaseUrl: URL) {
+func createEmptyFileGeng(name: String, fileBaseUrl: URL) {
     let manager = FileManager.default
 
     let file = fileBaseUrl.appendingPathComponent(name)
@@ -37,7 +37,7 @@ func createEmptyFile(name: String, fileBaseUrl: URL) {
     }
 }
 
-func copyFile(source: URL, to: URL) {
+func copyFileGeng(source: URL, to: URL) {
     do {
         if FileManager.default.fileExists(atPath: to.path) {
             try FileManager.default.removeItem(at: to)
@@ -48,7 +48,7 @@ func copyFile(source: URL, to: URL) {
     }
 }
 
-func deleteFile(source: URL) {
+func deleteFileGeng(source: URL) {
     do {
         if FileManager.default.fileExists(atPath: source.path) {
             try FileManager.default.removeItem(at: source)
@@ -60,11 +60,11 @@ func deleteFile(source: URL) {
     }
 }
 
-func deleteFolder(source: URL) {
-    deleteFile(source: source)
+func deleteFolderGeng(source: URL) {
+    deleteFileGeng(source: source)
 }
 
-func readFile(source: URL) {
+func readFileGeng(source: URL) {
     do {
         let readHandler = try FileHandle(forReadingFrom: source)
         let data = readHandler.readDataToEndOfFile()
@@ -75,7 +75,7 @@ func readFile(source: URL) {
     }
 }
 
-func writeFile(source: URL,content:String, startOrEnd:String = "override") {
+func writeFileGeng(source: URL,content:String, startOrEnd:String = "override") {
     if !FileManager.default.fileExists(atPath: source.path) {
         FileManager.default.createFile(atPath: source.path, contents: nil, attributes: nil)
     }
@@ -95,7 +95,7 @@ func writeFile(source: URL,content:String, startOrEnd:String = "override") {
     }
 }
 
-func getFilePermission(source: URL) {
+func getFilePermissionGeng(source: URL) {
     let manager = FileManager.default
 
     let readable = manager.isReadableFile(atPath: source.path)

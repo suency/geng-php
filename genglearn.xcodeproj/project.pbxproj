@@ -11,6 +11,8 @@
 		B137D36929488C5500DE5C75 /* mysql.swift in Sources */ = {isa = PBXBuildFile; fileRef = B137D36829488C5500DE5C75 /* mysql.swift */; };
 		B137D36B29488C7800DE5C75 /* php.swift in Sources */ = {isa = PBXBuildFile; fileRef = B137D36A29488C7800DE5C75 /* php.swift */; };
 		B137D36D29488C9F00DE5C75 /* redis.swift in Sources */ = {isa = PBXBuildFile; fileRef = B137D36C29488C9F00DE5C75 /* redis.swift */; };
+		B13D84F9294CBB4000A122EB /* ShellOut in Frameworks */ = {isa = PBXBuildFile; productRef = B13D84F8294CBB4000A122EB /* ShellOut */; };
+		B13D84FC294CBD0B00A122EB /* SwiftShell in Frameworks */ = {isa = PBXBuildFile; productRef = B13D84FB294CBD0B00A122EB /* SwiftShell */; };
 		B1B45E9C294CABB100DFFA08 /* fileOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B45E9B294CABB100DFFA08 /* fileOperations.swift */; };
 		B1CDE8DB29484BB00079D226 /* genglearnApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CDE8DA29484BB00079D226 /* genglearnApp.swift */; };
 		B1CDE8DD29484BB00079D226 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CDE8DC29484BB00079D226 /* ContentView.swift */; };
@@ -41,6 +43,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B13D84F9294CBB4000A122EB /* ShellOut in Frameworks */,
+				B13D84FC294CBD0B00A122EB /* SwiftShell in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,6 +111,8 @@
 			);
 			name = genglearn;
 			packageProductDependencies = (
+				B13D84F8294CBB4000A122EB /* ShellOut */,
+				B13D84FB294CBD0B00A122EB /* SwiftShell */,
 			);
 			productName = genglearn;
 			productReference = B1CDE8D729484BB00079D226 /* GengPHP.app */;
@@ -137,6 +143,8 @@
 			);
 			mainGroup = B1CDE8CE29484BAF0079D226;
 			packageReferences = (
+				B13D84F7294CBB4000A122EB /* XCRemoteSwiftPackageReference "ShellOut" */,
+				B13D84FA294CBD0B00A122EB /* XCRemoteSwiftPackageReference "SwiftShell" */,
 			);
 			productRefGroup = B1CDE8D829484BB00079D226 /* Products */;
 			projectDirPath = "";
@@ -380,6 +388,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B13D84F7294CBB4000A122EB /* XCRemoteSwiftPackageReference "ShellOut" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/JohnSundell/ShellOut";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+		B13D84FA294CBD0B00A122EB /* XCRemoteSwiftPackageReference "SwiftShell" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kareman/SwiftShell";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B13D84F8294CBB4000A122EB /* ShellOut */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B13D84F7294CBB4000A122EB /* XCRemoteSwiftPackageReference "ShellOut" */;
+			productName = ShellOut;
+		};
+		B13D84FB294CBD0B00A122EB /* SwiftShell */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B13D84FA294CBD0B00A122EB /* XCRemoteSwiftPackageReference "SwiftShell" */;
+			productName = SwiftShell;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B1CDE8CF29484BAF0079D226 /* Project object */;
 }
