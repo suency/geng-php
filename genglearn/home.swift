@@ -29,6 +29,7 @@ struct installItem: View {
     var logoContent: String
     var logoColor: String
     var hoverText: String
+    
     var installAction: () -> Void
     var body: some View {
         ZStack {
@@ -73,10 +74,10 @@ struct installModel: View {
                 installItem(logo: "apache", logoContent: "Apache", logoColor: "apache", hoverText: "install", installAction: {})
             }
             HStack(spacing: 12) {
-                installItem(logo: "brew", logoContent: "brew", logoColor: "brew", hoverText: "install", installAction: {})
-                installItem(logo: "mirror", logoContent: "Mirror", logoColor: "mirror", hoverText: "change", installAction: {})
+                installItem(logo: "brew", logoContent: "brewOri", logoColor: "brew", hoverText: "install", installAction: {})
+                installItem(logo: "brew", logoContent: "brewMir", logoColor: "mirror", hoverText: "install", installAction: {})
                 installItem(logo: "origin", logoContent: "Origin", logoColor: "main4", hoverText: "change", installAction: {})
-                Spacer().frame(width: 55, height: 55)
+                installItem(logo: "mirror", logoContent: "Mirror", logoColor: "mirror", hoverText: "change", installAction: {})
             }
             Text("Close")
                 .frame(width: 100, height: 30)
@@ -107,6 +108,8 @@ struct home: View {
     // @State var consoleInfo: [String] = []
     @State var consoleInfoPipe: String = ""
     @State var showInstall = false
+    @State var showFullScreenLoading = false
+    @EnvironmentObject var serverObj:ServerModel
     var topID = UUID()
     var bottomID = UUID()
     var body: some View {
@@ -119,17 +122,10 @@ struct home: View {
                 Text("Test").frame(width: 65, height: 25)
                     .contentShape(Rectangle())
                     .onTapGesture(perform: {
-                        /*
-                         let command = runAsync("/bin/zsh", "while true;do echo 1;sleep 1;done").onCompletion { command in
-
-                         }
-                         command.stdout.onOutput { stdout in
-                             print(stdout)
-
-                         }*/
-                        let a = runGengShell(log: self.$consoleInfoPipe)
-                        a.runCode("ping -c 115 127.0.0.1")
-                        // a.runCode("brew -v")
+                        
+                        //runGengShell(log: self.$consoleInfoPipe).checkLocalBrew()
+                        //runGengShell(log: self.$consoleInfoPipe).nginxStart()
+                        //runGengShell(log: self.$consoleInfoPipe).pingTest()
                     })
                     .foregroundColor(Color.white)
                     .background(Color("main4"))
@@ -142,7 +138,7 @@ struct home: View {
                     }).sheet(isPresented: $showInstall, content: {
                         VStack {
                             HStack {
-                                // installModel(showInstall: $showInstall)
+                                installModel(showInstall: $showInstall)
                             }
                         }
                         .frame(width: 300, height: 200)
@@ -162,7 +158,7 @@ struct home: View {
                     Text("Installed")
                         .frame(width: 60, alignment: .leading)
                     Text("Status").frame(width: 90, alignment: .leading)
-                    Text("Version").frame(width: 60, alignment: .leading)
+                    Text("Version").frame(width: 75, alignment: .leading)
                     Text("Operations").frame(width: 180, alignment: .leading)
                 }
                 .frame(width: 550, height: 15)
@@ -179,22 +175,60 @@ struct home: View {
                     .frame(width: 60, alignment: .leading)
 
                     HStack(spacing: 5) {
-                        Circle().fill(Color("healthy"))
-                            .frame(width: 10, height: 10)
-                        Text("Running").foregroundColor(Color("healthy"))
+                        
+                        if serverObj.nginx.status == "Running" {
+                            Circle().fill(Color("healthy"))
+                                .frame(width: 10, height: 10)
+                            Text("Running").foregroundColor(Color("healthy"))
+                        }
+                        
+                        if serverObj.nginx.status == "Stopped" {
+                            Circle().fill(Color("danger"))
+                                .frame(width: 10, height: 10)
+                            Text("Stopped").foregroundColor(Color("danger"))
+                        }
+                        
                     }.frame(width: 90, alignment: .leading)
                     HStack(spacing: 5) {
-                        Text("1.22.1")
+                        Text(serverObj.nginx.version)
                         Triangle()
                             .fill(Color("info"))
                             .frame(width: 10, height: 10)
-                    }.frame(width: 60, alignment: .leading)
+                    }.frame(width: 75, alignment: .leading)
 
                     HStack {
-                        Text("stop").frame(width: 45, height: 22)
-                            .foregroundColor(Color.white)
-                            .background(Color("danger"))
-                            .cornerRadius(5)
+                        if serverObj.nginx.status == "Running" {
+                            Text("stop").frame(width: 45, height: 22)
+                                .contentShape(Rectangle())
+                                .onTapGesture{
+                                    serverObj.loading = true
+                                    runGengShell(log: self.$consoleInfoPipe).nginxStop{
+                                        serverObj.nginx.status = "Stopped"
+                                        serverObj.loading = false
+                                        print("stopped")
+                                    }
+                                }
+                                .foregroundColor(Color.white)
+                                .background(Color("danger"))
+                                .cornerRadius(5)
+                        }
+                        
+                        if serverObj.nginx.status == "Stopped" {
+                            Text("start").frame(width: 45, height: 22)
+                                .contentShape(Rectangle())
+                                .onTapGesture{
+                                    serverObj.loading = true
+                                    runGengShell(log: self.$consoleInfoPipe).nginxStart{
+                                        serverObj.nginx.status = "Running"
+                                        serverObj.loading = false
+                                        print("started")
+                                    }
+                                }
+                                .foregroundColor(Color.white)
+                                .background(Color("main4"))
+                                .cornerRadius(5)
+                        }
+                        
                         Text("restart").frame(width: 60, height: 22)
                             .foregroundColor(Color.white)
                             .background(Color("main4"))
@@ -229,7 +263,7 @@ struct home: View {
                         Triangle()
                             .fill(Color("info"))
                             .frame(width: 10, height: 10)
-                    }.frame(width: 60, alignment: .leading)
+                    }.frame(width: 75, alignment: .leading)
 
                     HStack {
                         Text("start").frame(width: 45, height: 22)
@@ -303,5 +337,6 @@ struct home: View {
 
         }.padding(EdgeInsets(top: 40, leading: 50, bottom: 30, trailing: 50))
             .frame(width: 620, height: 500)
+            
     }
 }
