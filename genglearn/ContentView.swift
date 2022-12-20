@@ -6,10 +6,19 @@
 //
 import Foundation
 import SwiftUI
+import Regex
+
+struct gengMenu: MenuStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        Menu(configuration)
+            
+            //.background(Color("danger"))
+    }
+}
 
 func runShellAndOutput(_ command: String) -> (Int32, String?) {
     let task = Process()
-    task.launchPath = "/bin/bash"
+    task.launchPath = "/bin/zsh"
     task.environment = ["PATH": "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin"]
     task.arguments = ["-c", command]
 
@@ -150,7 +159,8 @@ struct menuItem: Identifiable, View {
 
 struct initChecking: View {
     @Binding var isLoading: Bool
-    @State var checkingLog: String = ""
+    @State var checkingLogNginx: String = ""
+    @State var checkingLogPhp: String = ""
     @EnvironmentObject var serverObj: ServerModel
     var body: some View {
         VStack(alignment: .center, spacing: 2) {
@@ -162,30 +172,37 @@ struct initChecking: View {
             }
             HStack {
                 Text("checking...")
-                Text("nginx").foregroundColor(Color("nginx"))
+                Text("Nginx").foregroundColor(Color("nginx"))
             }
             HStack {
                 Text("checking...")
-                Text("php").foregroundColor(Color("info"))
+                Text("Php").foregroundColor(Color("info"))
             }
             HStack {
                 Text("checking...")
-                Text("apache").foregroundColor(Color("apache"))
+                Text("Mysql").foregroundColor(Color("mysql"))
             }
             //Text("\(self.checkingLog)")
-        }.frame(width: 260, height: 230)
+        }.frame(width: 160, height: 130)
             .background(Color("mainbg"))
             .cornerRadius(10)
             .onAppear {
                 serverObj.nginx.installed = false
                 serverObj.nginx.version = "No Version"
-                serverObj.nginx.status = "none"
-
-                runGengShell(log: self.$checkingLog).brewServiceList {
-                    let bData = Tools.getBrewListData(self.checkingLog)
+                serverObj.nginx.status = "None"
+                
+                serverObj.php.installed = false
+                serverObj.php.version = ("None","None")
+                serverObj.php.status = "None"
+                
+                //nginx
+                runGengShell(log: self.$checkingLogNginx).brewServiceList {
+                    let bData = Tools.getBrewListData(self.checkingLogNginx)
                     let serviceName = bData.filter {
                         $0["Name"] == "nginx"
                     }
+                    
+                    
                     if serviceName.isEmpty {
                         print("nginx not installed")
                         serverObj.nginx.installed = false
@@ -214,6 +231,80 @@ struct initChecking: View {
                     self.isLoading = false
                 }
                 
+                //php
+                runGengShell(log: self.$checkingLogPhp).brewServiceList {
+                    let bData = Tools.getBrewListData(self.checkingLogPhp)
+                    let serviceName = bData.filter {
+                        return $0["Name"]?.contains(pattern: "php") ?? false
+                    }
+                    
+                    // for version lsit
+                    let versionList = bData.filter {
+                        return $0["Name"]?.contains(pattern: "php") ?? false
+                    }.map{
+                        return $0["Name"] ?? ""
+                    }
+                    
+                    var combineVersionList = [[String:String]]()
+                    for vitem in versionList {
+                        let temp = runShellAndOutput("ls /usr/local/Cellar/\(vitem)").1!.trim()
+                        combineVersionList.append([vitem:temp])
+                    }
+                    //let abc = combineVersionList[0].keys
+                    //print(combineVersionList)
+                    //print(Array(abc)[0])
+                    //print("hehe")
+                    
+                    serverObj.php.versionBrewList = combineVersionList
+                    if serviceName.isEmpty {
+                        print("php not installed")
+                        serverObj.php.installed = false
+                        serverObj.php.version = ("None","None")
+                        serverObj.php.status = "None"
+                    } else {
+                        let testString2 = runShellAndOutput("php -v").1!
+                        
+                        let ranges = testString2.match(pattern: #"[0-9]+\.[0-9]+\.[0-9]"#)
+
+                        let found:[String] = ranges.map { String(testString2[$0]) }
+
+                        serverObj.php.installed = true
+                        
+                        serverObj.php.version = (found[0],found[0])
+                        
+                        var foundStatus = false
+                        
+                        /*
+                        print(combineVersionList)
+                        print(combineVersionList.filter{
+                            $0[sitem["Name"]!] != nil
+                        }[0][sitem["Name"]!]!)
+                         */
+                        for sitem in serviceName {
+                            if sitem["Status"]! == "started" {
+                                print("\(sitem["Name"]!) started")
+                                serverObj.php.status = "Running"
+                                
+                                
+                                serverObj.php.version = (
+                                    sitem["Name"]!,
+                                    combineVersionList.filter{
+                                        $0[sitem["Name"]!] != nil
+                                    }[0][sitem["Name"]!]!
+                                )
+                                
+                                foundStatus = true
+                            }
+                        }
+                        
+
+                        if !foundStatus {
+                            serverObj.php.status = "Stopped"
+                            print("php stopped")
+                        }
+                    }
+                    self.isLoading = false
+                }
             }
     }
 }

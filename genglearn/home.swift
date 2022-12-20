@@ -29,7 +29,7 @@ struct installItem: View {
     var logoContent: String
     var logoColor: String
     var hoverText: String
-    
+
     var installAction: () -> Void
     var body: some View {
         ZStack {
@@ -65,19 +65,46 @@ struct installItem: View {
 
 struct installModel: View {
     @Binding var showInstall: Bool
+    @Binding var log: String
     var body: some View {
         VStack(spacing: 10) {
             HStack(spacing: 12) {
-                installItem(logo: "nginx", logoContent: "nginx", logoColor: "nginx", hoverText: "install", installAction: {})
-                installItem(logo: "php", logoContent: "Php", logoColor: "php", hoverText: "install", installAction: {})
-                installItem(logo: "mysql", logoContent: "Mysql", logoColor: "mysql", hoverText: "install", installAction: {})
-                installItem(logo: "apache", logoContent: "Apache", logoColor: "apache", hoverText: "install", installAction: {})
+                installItem(logo: "nginx", logoContent: "nginx", logoColor: "nginx", hoverText: "install") {
+                    let filepath = Bundle.main.path(forResource: "scpt/nginx", ofType: "scpt")
+                    runGengShellApple(log: self.$log).runCode(filepath!) {
+                        print("ok")
+                    }
+                }
+
+                installItem(logo: "php", logoContent: "Php", logoColor: "php", hoverText: "install") {
+                    let filepath = Bundle.main.path(forResource: "scpt/php", ofType: "scpt")
+                    runGengShellApple(log: self.$log).runCode(filepath!) {
+                        print("ok")
+                    }
+                }
+
+                installItem(logo: "mysql", logoContent: "Mysql", logoColor: "mysql", hoverText: "install") {
+                    let filepath = Bundle.main.path(forResource: "scpt/mysql", ofType: "scpt")
+                    runGengShellApple(log: self.$log).runCode(filepath!) {
+                        print("ok")
+                    }
+                }
+
+                // installItem(logo: "apache", logoContent: "Apache", logoColor: "apache", hoverText: "install", installAction: {})
             }
             HStack(spacing: 12) {
-                installItem(logo: "brew", logoContent: "brewOri", logoColor: "brew", hoverText: "install", installAction: {})
-                installItem(logo: "brew", logoContent: "brewMir", logoColor: "mirror", hoverText: "install", installAction: {})
-                installItem(logo: "origin", logoContent: "Origin", logoColor: "main4", hoverText: "change", installAction: {})
-                installItem(logo: "mirror", logoContent: "Mirror", logoColor: "mirror", hoverText: "change", installAction: {})
+                installItem(logo: "brew", logoContent: "Brew", logoColor: "brew", hoverText: "install") {
+                    let filepath = Bundle.main.path(forResource: "scpt/brew", ofType: "scpt")
+                    runGengShellApple(log: self.$log).runCode(filepath!) {
+                        print("ok")
+                    }
+                }
+                installItem(logo: "brew", logoContent: "Brew_cn", logoColor: "mirror", hoverText: "安装") {
+                    let filepath = Bundle.main.path(forResource: "scpt/brew_cn", ofType: "scpt")
+                    runGengShellApple(log: self.$log).runCode(filepath!) {
+                        print("ok")
+                    }
+                }
             }
             Text("Close")
                 .frame(width: 100, height: 30)
@@ -95,10 +122,11 @@ struct installModel: View {
 
 struct showInstallPreview: PreviewProvider {
     @State static var showInstall = false
+    @State static var log = ""
     static var previews: some View {
         VStack {
             HStack {
-                installModel(showInstall: $showInstall)
+                installModel(showInstall: $showInstall, log: $log)
             }
         }
     }
@@ -109,7 +137,8 @@ struct home: View {
     @State var consoleInfoPipe: String = ""
     @State var showInstall = false
     @State var showFullScreenLoading = false
-    @EnvironmentObject var serverObj:ServerModel
+    @State var phpVersionShow = false
+    @EnvironmentObject var serverObj: ServerModel
     var topID = UUID()
     var bottomID = UUID()
     var body: some View {
@@ -122,10 +151,14 @@ struct home: View {
                 Text("Test").frame(width: 65, height: 25)
                     .contentShape(Rectangle())
                     .onTapGesture(perform: {
-                        
-                        //runGengShell(log: self.$consoleInfoPipe).checkLocalBrew()
-                        //runGengShell(log: self.$consoleInfoPipe).nginxStart()
-                        //runGengShell(log: self.$consoleInfoPipe).pingTest()
+                        let filepath = Bundle.main.path(forResource: "scpt/brew_cn", ofType: "scpt")
+                        runGengShellApple(log: self.$consoleInfoPipe).runCode(filepath!) {
+                            print("ok")
+                        }
+
+                        // runGengShell(log: self.$consoleInfoPipe).checkLocalBrew()
+                        // runGengShell(log: self.$consoleInfoPipe).nginxStart()
+                        // runGengShell(log: self.$consoleInfoPipe).pingTest()
                     })
                     .foregroundColor(Color.white)
                     .background(Color("main4"))
@@ -138,7 +171,7 @@ struct home: View {
                     }).sheet(isPresented: $showInstall, content: {
                         VStack {
                             HStack {
-                                installModel(showInstall: $showInstall)
+                                installModel(showInstall: $showInstall, log: $consoleInfoPipe)
                             }
                         }
                         .frame(width: 300, height: 200)
@@ -164,6 +197,7 @@ struct home: View {
                 .frame(width: 550, height: 15)
                 .foregroundColor(Color("maintext"))
 
+                // nginx
                 HStack {
                     Text("Nginx")
                         .frame(width: 60, alignment: .leading)
@@ -175,34 +209,31 @@ struct home: View {
                     .frame(width: 60, alignment: .leading)
 
                     HStack(spacing: 5) {
-                        
                         if serverObj.nginx.status == "Running" {
                             Circle().fill(Color("healthy"))
                                 .frame(width: 10, height: 10)
                             Text("Running").foregroundColor(Color("healthy"))
                         }
-                        
+
                         if serverObj.nginx.status == "Stopped" {
                             Circle().fill(Color("danger"))
                                 .frame(width: 10, height: 10)
                             Text("Stopped").foregroundColor(Color("danger"))
                         }
-                        
+
                     }.frame(width: 90, alignment: .leading)
                     HStack(spacing: 5) {
                         Text(serverObj.nginx.version)
-                        Triangle()
-                            .fill(Color("info"))
-                            .frame(width: 10, height: 10)
+                        // Triangle().fill(Color("info")).frame(width: 10, height: 10)
                     }.frame(width: 75, alignment: .leading)
 
                     HStack {
                         if serverObj.nginx.status == "Running" {
                             Text("stop").frame(width: 45, height: 22)
                                 .contentShape(Rectangle())
-                                .onTapGesture{
+                                .onTapGesture {
                                     serverObj.loading = true
-                                    runGengShell(log: self.$consoleInfoPipe).nginxStop{
+                                    runGengShell(log: self.$consoleInfoPipe).nginxStop {
                                         serverObj.nginx.status = "Stopped"
                                         serverObj.loading = false
                                         print("stopped")
@@ -212,13 +243,13 @@ struct home: View {
                                 .background(Color("danger"))
                                 .cornerRadius(5)
                         }
-                        
+
                         if serverObj.nginx.status == "Stopped" {
                             Text("start").frame(width: 45, height: 22)
                                 .contentShape(Rectangle())
-                                .onTapGesture{
+                                .onTapGesture {
                                     serverObj.loading = true
-                                    runGengShell(log: self.$consoleInfoPipe).nginxStart{
+                                    runGengShell(log: self.$consoleInfoPipe).nginxStart {
                                         serverObj.nginx.status = "Running"
                                         serverObj.loading = false
                                         print("started")
@@ -228,8 +259,19 @@ struct home: View {
                                 .background(Color("main4"))
                                 .cornerRadius(5)
                         }
-                        
+
                         Text("restart").frame(width: 60, height: 22)
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                serverObj.loading = true
+                                runGengShell(log: self.$consoleInfoPipe).nginxStop {
+                                    serverObj.nginx.status = "Stopped"
+                                    runGengShell(log: self.$consoleInfoPipe).nginxStart {
+                                        serverObj.nginx.status = "Running"
+                                        serverObj.loading = false
+                                    }
+                                }
+                            }
                             .foregroundColor(Color.white)
                             .background(Color("main4"))
                             .cornerRadius(5)
@@ -243,34 +285,111 @@ struct home: View {
                 .frame(width: 550, height: 20)
                 .foregroundColor(Color.white)
 
+                // php
                 HStack {
                     Text("Php")
                         .frame(width: 60, alignment: .leading)
                     HStack {
-                        Image("cross").resizable()
+                        Image("tick").resizable()
                             .interpolation(.high)
-                            .frame(width: 11, height: 11)
+                            .frame(width: 13, height: 10)
                     }
                     .frame(width: 60, alignment: .leading)
 
                     HStack(spacing: 5) {
-                        Circle().fill(Color("danger"))
-                            .frame(width: 10, height: 10)
-                        Text("Stopped").foregroundColor(Color("danger"))
+                        if serverObj.php.status == "Running" {
+                            Circle().fill(Color("healthy"))
+                                .frame(width: 10, height: 10)
+                            Text("Running").foregroundColor(Color("healthy"))
+                        }
+
+                        if serverObj.php.status == "Stopped" {
+                            Circle().fill(Color("danger"))
+                                .frame(width: 10, height: 10)
+                            Text("Stopped").foregroundColor(Color("danger"))
+                        }
+
                     }.frame(width: 90, alignment: .leading)
                     HStack(spacing: 5) {
-                        Text("8.0.25")
-                        Triangle()
-                            .fill(Color("info"))
-                            .frame(width: 10, height: 10)
+                        // Text(serverObj.php.version)
+
+                        Menu(serverObj.php.version.1) {
+                            ForEach(serverObj.php.versionBrewList, id: \.self) { i in
+                                
+                                //key for brew php,php@7.4
+                                //value for display 7.4.2, 8.0.2
+                                
+                                let key = Array(i.keys)[0]
+                                let value = Array(i.values)[0]
+                                Button("\(value)") {
+                                    serverObj.loading = true
+                                    runGengShell(log: self.$consoleInfoPipe).phpSwitch(currentVersion: serverObj.php.version, targetVersion: (key,value)) {
+                                        serverObj.php.status = "Running"
+                                        serverObj.php.version = (key,value)
+                                        serverObj.loading = false
+                                        
+                                    }
+                                }
+                            }
+                        }
+                        .menuStyle(gengMenu())
+                        .frame(width: 65)
+                        .cornerRadius(3)
+
+                        /*
+                         Triangle().fill(Color("info")).frame(width: 10, height: 10).contentShape(Rectangle())
+                             .onTapGesture {
+                                phpVersionShow = true
+                             }
+                             //.sheet(isPresented: $phpVersionShow){}
+                          */
                     }.frame(width: 75, alignment: .leading)
 
                     HStack {
-                        Text("start").frame(width: 45, height: 22)
-                            .foregroundColor(Color.white)
-                            .background(Color("main4"))
-                            .cornerRadius(5)
+                        if serverObj.php.status == "Running" {
+                            Text("stop").frame(width: 45, height: 22)
+                                .contentShape(Rectangle())
+                                .onTapGesture {
+                                    serverObj.loading = true
+                                    runGengShell(log: self.$consoleInfoPipe).phpStop {
+                                        serverObj.php.status = "Stopped"
+                                        serverObj.loading = false
+                                        print("stopped")
+                                    }
+                                }
+                                .foregroundColor(Color.white)
+                                .background(Color("danger"))
+                                .cornerRadius(5)
+                        }
+
+                        if serverObj.php.status == "Stopped" {
+                            Text("start").frame(width: 45, height: 22)
+                                .contentShape(Rectangle())
+                                .onTapGesture {
+                                    serverObj.loading = true
+                                    runGengShell(log: self.$consoleInfoPipe).phpStart {
+                                        serverObj.php.status = "Running"
+                                        serverObj.loading = false
+                                        print("started")
+                                    }
+                                }
+                                .foregroundColor(Color.white)
+                                .background(Color("main4"))
+                                .cornerRadius(5)
+                        }
+
                         Text("restart").frame(width: 60, height: 22)
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                serverObj.loading = true
+                                runGengShell(log: self.$consoleInfoPipe).phpStop {
+                                    serverObj.php.status = "Stopped"
+                                    runGengShell(log: self.$consoleInfoPipe).phpStart {
+                                        serverObj.php.status = "Running"
+                                        serverObj.loading = false
+                                    }
+                                }
+                            }
                             .foregroundColor(Color.white)
                             .background(Color("main4"))
                             .cornerRadius(5)
@@ -337,6 +456,5 @@ struct home: View {
 
         }.padding(EdgeInsets(top: 40, leading: 50, bottom: 30, trailing: 50))
             .frame(width: 620, height: 500)
-            
     }
 }

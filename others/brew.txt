@@ -28,8 +28,9 @@ $ source ~/.bash_profile
 # 刷新源
 $ brew update
 
+echo 'export geng=ok' >> ~/.zshrc
 
-
+echo "111111" | sudo -S echo 'export geng22=ok22' | sudo tee ~/.zshrc
 
 
 #重置brew.git:
@@ -39,3 +40,29 @@ git remote set-url origin https://github.com/Homebrew/brew.git
 #重置homebrew-core.git:
 cd "$(brew --repo)/Library/Taps/homebrew/homebrew-core"
 git remote set-url origin https://github.com/Homebrew/homebrew-core.git
+
+
+
+-------
+# 替换各个源
+$ git -C "$(brew --repo)" remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git
+$ git -C "$(brew --repo homebrew/core)" remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git
+$ git -C "$(brew --repo homebrew/cask)" remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-cask.git
+
+# zsh 替换 brew bintray 镜像
+$ echo 'export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles' >> ~/.zshrc
+$ source ~/.zshrc
+
+# bash 替换 brew bintray 镜像
+$ echo 'export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles' >> ~/.bash_profile
+$ source ~/.bash_profile
+
+# 刷新源
+$ brew update
+
+
+
+
+
+brew services cleanup
+sudo brew services cleanup

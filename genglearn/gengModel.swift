@@ -22,7 +22,8 @@ struct nginxObj {
 struct phpObj {
     var installed = false
     var status = "None"
-    var version = "8.0.25"
+    var version = ("php","8.0.25")
+    var versionBrewList = [[String:String]]()
 }
 
 struct mysqlObj {
