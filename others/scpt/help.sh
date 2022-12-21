@@ -31,3 +31,6 @@ ls /usr/local/Cellar/mysql # => 8.0.16
 
 
 ps -ef|grep mysql
+
+## nginx
+ps -ef | grep nginx | grep -v grep

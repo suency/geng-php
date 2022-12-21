@@ -105,6 +105,7 @@ struct runGengShell {
         self.runCode(#"""cd "$(brew --repo)" && git remote -v"""#,onComplete:onComplete)
     }
     
+    //nginx
     func nginxStart(onComplete:@escaping ()->Void){
         self.runCode(#"""brew services start nginx"""#,onComplete:onComplete)
     }
@@ -117,6 +118,20 @@ struct runGengShell {
         self.runCode(#"""brew services restart nginx"""#,onComplete:onComplete)
     }
     
+    //mysql
+    func mysqlStart(onComplete:@escaping ()->Void){
+        self.runCode(#"""brew services start mysql"""#,onComplete:onComplete)
+    }
+    
+    func mysqlStop(onComplete:@escaping ()->Void){
+        self.runCode(#"""brew services stop mysql"""#,onComplete:onComplete)
+    }
+    
+    func mysqlRestart(onComplete:@escaping ()->Void){
+        self.runCode(#"""brew services restart mysql"""#,onComplete:onComplete)
+    }
+    
+    //php
     func phpStart(onComplete:@escaping ()->Void){
         self.runCode(#"""brew services start php"""#,onComplete:onComplete)
     }
@@ -131,6 +146,8 @@ struct runGengShell {
     
     func phpSwitch(currentVersion:(String,String),targetVersion:(String,String),onComplete:@escaping ()->Void){
         
+        print("currentVersion",currentVersion)
+        print("targetVersion",targetVersion)
         
         self.runCode("brew services stop \(currentVersion.0) && brew services start \(targetVersion.0) && brew unlink \(currentVersion.0) && brew link \(targetVersion.0)",onComplete:onComplete)
     }

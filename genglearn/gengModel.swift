@@ -29,6 +29,6 @@ struct phpObj {
 struct mysqlObj {
     var installed = false
     var status = "None"
-    var version = "1.22.1"
+    var version = "8.0.1"
 }
 

@@ -106,11 +106,15 @@ struct installModel: View {
                     }
                 }
             }
-            Text("Close")
-                .frame(width: 100, height: 30)
+            Text("Close and Restart")
+                .frame(width: 150, height: 30)
                 .contentShape(Rectangle())
                 .onTapGesture(perform: {
                     self.showInstall = false
+                    let filepath = Bundle.main.path(forResource: "scpt/restart", ofType: "scpt")
+                    runGengShellApple(log: self.$log).runCode(filepath!) {
+                        print("ok")
+                    }
                 })
                 .background(Color("main4"))
                 .cornerRadius(10)
@@ -151,10 +155,10 @@ struct home: View {
                 Text("Test").frame(width: 65, height: 25)
                     .contentShape(Rectangle())
                     .onTapGesture(perform: {
-                        let filepath = Bundle.main.path(forResource: "scpt/brew_cn", ofType: "scpt")
-                        runGengShellApple(log: self.$consoleInfoPipe).runCode(filepath!) {
-                            print("ok")
-                        }
+                        //let filepath = Bundle.main.path(forResource: "scpt/brew_cn", ofType: "scpt")
+                        //runGengShellApple(log: self.$consoleInfoPipe).runCode(filepath!) {
+                          //  print("ok")
+                        //}
 
                         // runGengShell(log: self.$consoleInfoPipe).checkLocalBrew()
                         // runGengShell(log: self.$consoleInfoPipe).nginxStart()
@@ -202,9 +206,15 @@ struct home: View {
                     Text("Nginx")
                         .frame(width: 60, alignment: .leading)
                     HStack {
-                        Image("tick").resizable()
-                            .interpolation(.high)
-                            .frame(width: 13, height: 10)
+                        if serverObj.nginx.installed {
+                            Image("tick").resizable()
+                                .interpolation(.high)
+                                .frame(width: 13, height: 10)
+                        } else {
+                            Image("cross").resizable()
+                                .interpolation(.high)
+                                .frame(width: 11, height: 11)
+                        }
                     }
                     .frame(width: 60, alignment: .leading)
 
@@ -213,12 +223,14 @@ struct home: View {
                             Circle().fill(Color("healthy"))
                                 .frame(width: 10, height: 10)
                             Text("Running").foregroundColor(Color("healthy"))
-                        }
-
-                        if serverObj.nginx.status == "Stopped" {
+                        } else if serverObj.nginx.status == "Stopped" {
                             Circle().fill(Color("danger"))
                                 .frame(width: 10, height: 10)
                             Text("Stopped").foregroundColor(Color("danger"))
+                        } else {
+                            Circle().fill(Color("danger"))
+                                .frame(width: 10, height: 10)
+                            Text("Not Intalled").foregroundColor(Color("danger"))
                         }
 
                     }.frame(width: 90, alignment: .leading)
@@ -228,57 +240,59 @@ struct home: View {
                     }.frame(width: 75, alignment: .leading)
 
                     HStack {
-                        if serverObj.nginx.status == "Running" {
-                            Text("stop").frame(width: 45, height: 22)
+                        if serverObj.nginx.installed {
+                            if serverObj.nginx.status == "Running" {
+                                Text("stop").frame(width: 45, height: 22)
+                                    .contentShape(Rectangle())
+                                    .onTapGesture {
+                                        serverObj.loading = true
+                                        runGengShell(log: self.$consoleInfoPipe).nginxStop {
+                                            serverObj.nginx.status = "Stopped"
+                                            serverObj.loading = false
+                                            print("stopped")
+                                        }
+                                    }
+                                    .foregroundColor(Color.white)
+                                    .background(Color("danger"))
+                                    .cornerRadius(5)
+                            }
+
+                            if serverObj.nginx.status == "Stopped" {
+                                Text("start").frame(width: 45, height: 22)
+                                    .contentShape(Rectangle())
+                                    .onTapGesture {
+                                        serverObj.loading = true
+                                        runGengShell(log: self.$consoleInfoPipe).nginxStart {
+                                            serverObj.nginx.status = "Running"
+                                            serverObj.loading = false
+                                            print("started")
+                                        }
+                                    }
+                                    .foregroundColor(Color.white)
+                                    .background(Color("main4"))
+                                    .cornerRadius(5)
+                            }
+
+                            Text("restart").frame(width: 60, height: 22)
                                 .contentShape(Rectangle())
                                 .onTapGesture {
                                     serverObj.loading = true
                                     runGengShell(log: self.$consoleInfoPipe).nginxStop {
                                         serverObj.nginx.status = "Stopped"
-                                        serverObj.loading = false
-                                        print("stopped")
-                                    }
-                                }
-                                .foregroundColor(Color.white)
-                                .background(Color("danger"))
-                                .cornerRadius(5)
-                        }
-
-                        if serverObj.nginx.status == "Stopped" {
-                            Text("start").frame(width: 45, height: 22)
-                                .contentShape(Rectangle())
-                                .onTapGesture {
-                                    serverObj.loading = true
-                                    runGengShell(log: self.$consoleInfoPipe).nginxStart {
-                                        serverObj.nginx.status = "Running"
-                                        serverObj.loading = false
-                                        print("started")
+                                        runGengShell(log: self.$consoleInfoPipe).nginxStart {
+                                            serverObj.nginx.status = "Running"
+                                            serverObj.loading = false
+                                        }
                                     }
                                 }
                                 .foregroundColor(Color.white)
                                 .background(Color("main4"))
                                 .cornerRadius(5)
+                            Text("Setting").frame(width: 65, height: 22)
+                                .foregroundColor(Color.white)
+                                .background(Color("info"))
+                                .cornerRadius(5)
                         }
-
-                        Text("restart").frame(width: 60, height: 22)
-                            .contentShape(Rectangle())
-                            .onTapGesture {
-                                serverObj.loading = true
-                                runGengShell(log: self.$consoleInfoPipe).nginxStop {
-                                    serverObj.nginx.status = "Stopped"
-                                    runGengShell(log: self.$consoleInfoPipe).nginxStart {
-                                        serverObj.nginx.status = "Running"
-                                        serverObj.loading = false
-                                    }
-                                }
-                            }
-                            .foregroundColor(Color.white)
-                            .background(Color("main4"))
-                            .cornerRadius(5)
-                        Text("Setting").frame(width: 65, height: 22)
-                            .foregroundColor(Color.white)
-                            .background(Color("info"))
-                            .cornerRadius(5)
 
                     }.frame(width: 180, alignment: .leading)
                 }
@@ -290,9 +304,15 @@ struct home: View {
                     Text("Php")
                         .frame(width: 60, alignment: .leading)
                     HStack {
-                        Image("tick").resizable()
-                            .interpolation(.high)
-                            .frame(width: 13, height: 10)
+                        if serverObj.php.installed {
+                            Image("tick").resizable()
+                                .interpolation(.high)
+                                .frame(width: 13, height: 10)
+                        } else {
+                            Image("cross").resizable()
+                                .interpolation(.high)
+                                .frame(width: 11, height: 11)
+                        }
                     }
                     .frame(width: 60, alignment: .leading)
 
@@ -301,12 +321,14 @@ struct home: View {
                             Circle().fill(Color("healthy"))
                                 .frame(width: 10, height: 10)
                             Text("Running").foregroundColor(Color("healthy"))
-                        }
-
-                        if serverObj.php.status == "Stopped" {
+                        } else if serverObj.php.status == "Stopped" {
                             Circle().fill(Color("danger"))
                                 .frame(width: 10, height: 10)
                             Text("Stopped").foregroundColor(Color("danger"))
+                        } else {
+                            Circle().fill(Color("danger"))
+                                .frame(width: 10, height: 10)
+                            Text("Not Intalled").foregroundColor(Color("danger"))
                         }
 
                     }.frame(width: 90, alignment: .leading)
@@ -315,19 +337,18 @@ struct home: View {
 
                         Menu(serverObj.php.version.1) {
                             ForEach(serverObj.php.versionBrewList, id: \.self) { i in
-                                
-                                //key for brew php,php@7.4
-                                //value for display 7.4.2, 8.0.2
-                                
+
+                                // key for brew php,php@7.4
+                                // value for display 7.4.2, 8.0.2
+
                                 let key = Array(i.keys)[0]
                                 let value = Array(i.values)[0]
                                 Button("\(value)") {
                                     serverObj.loading = true
-                                    runGengShell(log: self.$consoleInfoPipe).phpSwitch(currentVersion: serverObj.php.version, targetVersion: (key,value)) {
+                                    runGengShell(log: self.$consoleInfoPipe).phpSwitch(currentVersion: serverObj.php.version, targetVersion: (key, value)) {
                                         serverObj.php.status = "Running"
-                                        serverObj.php.version = (key,value)
+                                        serverObj.php.version = (key, value)
                                         serverObj.loading = false
-                                        
                                     }
                                 }
                             }
@@ -346,57 +367,157 @@ struct home: View {
                     }.frame(width: 75, alignment: .leading)
 
                     HStack {
-                        if serverObj.php.status == "Running" {
-                            Text("stop").frame(width: 45, height: 22)
+                        if serverObj.php.installed {
+                            if serverObj.php.status == "Running" {
+                                Text("stop").frame(width: 45, height: 22)
+                                    .contentShape(Rectangle())
+                                    .onTapGesture {
+                                        serverObj.loading = true
+                                        runGengShell(log: self.$consoleInfoPipe).phpStop {
+                                            serverObj.php.status = "Stopped"
+                                            serverObj.loading = false
+                                            print("stopped")
+                                        }
+                                    }
+                                    .foregroundColor(Color.white)
+                                    .background(Color("danger"))
+                                    .cornerRadius(5)
+                            }
+
+                            if serverObj.php.status == "Stopped" {
+                                Text("start").frame(width: 45, height: 22)
+                                    .contentShape(Rectangle())
+                                    .onTapGesture {
+                                        serverObj.loading = true
+                                        runGengShell(log: self.$consoleInfoPipe).phpStart {
+                                            serverObj.php.status = "Running"
+                                            serverObj.loading = false
+                                            print("started")
+                                        }
+                                    }
+                                    .foregroundColor(Color.white)
+                                    .background(Color("main4"))
+                                    .cornerRadius(5)
+                            }
+
+                            Text("restart").frame(width: 60, height: 22)
                                 .contentShape(Rectangle())
                                 .onTapGesture {
                                     serverObj.loading = true
                                     runGengShell(log: self.$consoleInfoPipe).phpStop {
                                         serverObj.php.status = "Stopped"
-                                        serverObj.loading = false
-                                        print("stopped")
-                                    }
-                                }
-                                .foregroundColor(Color.white)
-                                .background(Color("danger"))
-                                .cornerRadius(5)
-                        }
-
-                        if serverObj.php.status == "Stopped" {
-                            Text("start").frame(width: 45, height: 22)
-                                .contentShape(Rectangle())
-                                .onTapGesture {
-                                    serverObj.loading = true
-                                    runGengShell(log: self.$consoleInfoPipe).phpStart {
-                                        serverObj.php.status = "Running"
-                                        serverObj.loading = false
-                                        print("started")
+                                        runGengShell(log: self.$consoleInfoPipe).phpStart {
+                                            serverObj.php.status = "Running"
+                                            serverObj.loading = false
+                                        }
                                     }
                                 }
                                 .foregroundColor(Color.white)
                                 .background(Color("main4"))
                                 .cornerRadius(5)
+                            Text("Setting").frame(width: 65, height: 22)
+                                .foregroundColor(Color.white)
+                                .background(Color("info"))
+                                .cornerRadius(5)
                         }
 
-                        Text("restart").frame(width: 60, height: 22)
-                            .contentShape(Rectangle())
-                            .onTapGesture {
-                                serverObj.loading = true
-                                runGengShell(log: self.$consoleInfoPipe).phpStop {
-                                    serverObj.php.status = "Stopped"
-                                    runGengShell(log: self.$consoleInfoPipe).phpStart {
-                                        serverObj.php.status = "Running"
-                                        serverObj.loading = false
+                    }.frame(width: 180, alignment: .leading)
+                }
+                .frame(width: 550, height: 20)
+                .foregroundColor(Color.white)
+
+                // mysql
+                HStack {
+                    Text("Mysql")
+                        .frame(width: 60, alignment: .leading)
+                    HStack {
+                        if serverObj.mysql.installed {
+                            Image("tick").resizable()
+                                .interpolation(.high)
+                                .frame(width: 13, height: 10)
+                        } else {
+                            Image("cross").resizable()
+                                .interpolation(.high)
+                                .frame(width: 11, height: 11)
+                        }
+                    }
+                    .frame(width: 60, alignment: .leading)
+
+                    HStack(spacing: 5) {
+                        if serverObj.mysql.status == "Running" {
+                            Circle().fill(Color("healthy"))
+                                .frame(width: 10, height: 10)
+                            Text("Running").foregroundColor(Color("healthy"))
+                        } else if serverObj.mysql.status == "Stopped" {
+                            Circle().fill(Color("danger"))
+                                .frame(width: 10, height: 10)
+                            Text("Stopped").foregroundColor(Color("danger"))
+                        } else {
+                            Circle().fill(Color("danger"))
+                                .frame(width: 10, height: 10)
+                            Text("Not Intalled").foregroundColor(Color("danger"))
+                        }
+
+                    }.frame(width: 90, alignment: .leading)
+                    HStack(spacing: 5) {
+                        Text(serverObj.mysql.version)
+                        // Triangle().fill(Color("info")).frame(width: 10, height: 10)
+                    }.frame(width: 75, alignment: .leading)
+
+                    HStack {
+                        if serverObj.mysql.installed {
+                            if serverObj.mysql.status == "Running" {
+                                Text("stop").frame(width: 45, height: 22)
+                                    .contentShape(Rectangle())
+                                    .onTapGesture {
+                                        serverObj.loading = true
+                                        runGengShell(log: self.$consoleInfoPipe).mysqlStop {
+                                            serverObj.mysql.status = "Stopped"
+                                            serverObj.loading = false
+                                            print("stopped")
+                                        }
+                                    }
+                                    .foregroundColor(Color.white)
+                                    .background(Color("danger"))
+                                    .cornerRadius(5)
+                            }
+
+                            if serverObj.mysql.status == "Stopped" {
+                                Text("start").frame(width: 45, height: 22)
+                                    .contentShape(Rectangle())
+                                    .onTapGesture {
+                                        serverObj.loading = true
+                                        runGengShell(log: self.$consoleInfoPipe).mysqlStart {
+                                            serverObj.mysql.status = "Running"
+                                            serverObj.loading = false
+                                            print("started")
+                                        }
+                                    }
+                                    .foregroundColor(Color.white)
+                                    .background(Color("main4"))
+                                    .cornerRadius(5)
+                            }
+
+                            Text("restart").frame(width: 60, height: 22)
+                                .contentShape(Rectangle())
+                                .onTapGesture {
+                                    serverObj.loading = true
+                                    runGengShell(log: self.$consoleInfoPipe).mysqlStop {
+                                        serverObj.mysql.status = "Stopped"
+                                        runGengShell(log: self.$consoleInfoPipe).mysqlStart {
+                                            serverObj.mysql.status = "Running"
+                                            serverObj.loading = false
+                                        }
                                     }
                                 }
-                            }
-                            .foregroundColor(Color.white)
-                            .background(Color("main4"))
-                            .cornerRadius(5)
-                        Text("Setting").frame(width: 65, height: 22)
-                            .foregroundColor(Color.white)
-                            .background(Color("info"))
-                            .cornerRadius(5)
+                                .foregroundColor(Color.white)
+                                .background(Color("main4"))
+                                .cornerRadius(5)
+                            Text("Setting").frame(width: 65, height: 22)
+                                .foregroundColor(Color.white)
+                                .background(Color("info"))
+                                .cornerRadius(5)
+                        }
 
                     }.frame(width: 180, alignment: .leading)
                 }
@@ -405,6 +526,8 @@ struct home: View {
                 Spacer()
                 Spacer()
                     .frame(width: 550, height: 1)
+
+                // end
             }
             .frame(width: 550, height: 200)
             .background(Color("mainbg"))
