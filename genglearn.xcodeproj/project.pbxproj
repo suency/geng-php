@@ -23,6 +23,7 @@
 		B1CDE8DD29484BB00079D226 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CDE8DC29484BB00079D226 /* ContentView.swift */; };
 		B1CDE8DF29484BB10079D226 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1CDE8DE29484BB10079D226 /* Assets.xcassets */; };
 		B1CDE8E229484BB10079D226 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1CDE8E129484BB10079D226 /* Preview Assets.xcassets */; };
+		B1D3A2B12953FEB400C923D2 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = B1D3A2B02953FEB400C923D2 /* SwiftyJSON */; };
 		B1EA231F2948761E00AAD3FD /* home.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EA231E2948761E00AAD3FD /* home.swift */; };
 		B1EA23212948768F00AAD3FD /* web.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EA23202948768F00AAD3FD /* web.swift */; };
 		B1FFA35C294EB23700AF9939 /* cmd.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1FFA35B294EB23700AF9939 /* cmd.swift */; };
@@ -59,6 +60,7 @@
 			files = (
 				B170584C295199E000630EC9 /* Regex in Frameworks */,
 				B13D84F9294CBB4000A122EB /* ShellOut in Frameworks */,
+				B1D3A2B12953FEB400C923D2 /* SwiftyJSON in Frameworks */,
 				B13D84FC294CBD0B00A122EB /* SwiftShell in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -152,6 +154,7 @@
 				B13D84F8294CBB4000A122EB /* ShellOut */,
 				B13D84FB294CBD0B00A122EB /* SwiftShell */,
 				B170584B295199E000630EC9 /* Regex */,
+				B1D3A2B02953FEB400C923D2 /* SwiftyJSON */,
 			);
 			productName = genglearn;
 			productReference = B1CDE8D729484BB00079D226 /* GengPHP.app */;
@@ -185,6 +188,7 @@
 				B13D84F7294CBB4000A122EB /* XCRemoteSwiftPackageReference "ShellOut" */,
 				B13D84FA294CBD0B00A122EB /* XCRemoteSwiftPackageReference "SwiftShell" */,
 				B170584A295199E000630EC9 /* XCRemoteSwiftPackageReference "Perfect-RegEx" */,
+				B1D3A2AF2953FEB400C923D2 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 			);
 			productRefGroup = B1CDE8D829484BB00079D226 /* Products */;
 			projectDirPath = "";
@@ -460,6 +464,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		B1D3A2AF2953FEB400C923D2 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -477,6 +489,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B170584A295199E000630EC9 /* XCRemoteSwiftPackageReference "Perfect-RegEx" */;
 			productName = Regex;
+		};
+		B1D3A2B02953FEB400C923D2 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B1D3A2AF2953FEB400C923D2 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

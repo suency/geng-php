@@ -74,6 +74,7 @@
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"
+      customArchiveName = "gengPHP"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

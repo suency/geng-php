@@ -11,6 +11,7 @@ class ServerModel: ObservableObject {
     @Published var php = phpObj()
     @Published var mysql = mysqlObj()
     @Published var loading = false
+    @Published var chipModel = "x86"
 }
 
 struct nginxObj {

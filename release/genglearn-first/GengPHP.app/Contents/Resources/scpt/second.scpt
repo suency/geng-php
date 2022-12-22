@@ -1,0 +1,1 @@
+-- do shell script "cd $(brew --repo) && git remote -v"do shell script "echo heelo"

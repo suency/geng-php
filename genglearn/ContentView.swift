@@ -7,6 +7,7 @@
 import Foundation
 import SwiftUI
 import Regex
+import ShellOut
 
 struct gengMenu: MenuStyle {
     func makeBody(configuration: Configuration) -> some View {
@@ -117,12 +118,14 @@ struct ContentView: View {
                 }.frame(width: 800,height: 500)
                     .background(Color.black)
                     .opacity(0.4)
-                ProgressView()
+                //ProgressView(value: serverObj.operationsProgress).progressViewStyle(CircularProgressViewStyle(tint: .yellow))
+                ProgressView().colorScheme(.dark)
             }
             
         }.environmentObject(serverObj)
     }
 }
+
 
 struct menuItem: Identifiable, View {
     var id = UUID()
@@ -138,6 +141,7 @@ struct menuItem: Identifiable, View {
                 .interpolation(.high)
                 .frame(width: 20, height: 20)
             Text(manuName)
+                .foregroundColor(Color.white)
                 .font(.system(size: 16))
             Spacer()
         }
@@ -167,20 +171,20 @@ struct initChecking: View {
         VStack(alignment: .center, spacing: 2) {
             HStack {
                 Spacer()
-                ProgressView()
+                ProgressView().colorScheme(.dark)
                     .scaleEffect(0.7)
                 Spacer()
             }
             HStack {
-                Text("checking...")
+                Text("checking...").foregroundColor(Color.white)
                 Text("Nginx").foregroundColor(Color("nginx"))
             }
             HStack {
-                Text("checking...")
+                Text("checking...").foregroundColor(Color.white)
                 Text("Php").foregroundColor(Color("info"))
             }
             HStack {
-                Text("checking...")
+                Text("checking...").foregroundColor(Color.white)
                 Text("Mysql").foregroundColor(Color("mysql"))
             }
             //Text("\(self.checkingLog)")
@@ -200,6 +204,8 @@ struct initChecking: View {
                 serverObj.mysql.version = "None"
                 serverObj.mysql.status = "Not Intalled"
                 
+                //detect chip model
+                serverObj.chipModel = runShellAndOutput("uname -m").1!.trim()
            
                 //nginx
                 runGengShell(log: self.$checkingLogNginx).brewServiceList {
@@ -210,7 +216,7 @@ struct initChecking: View {
                     
                     
                     if serviceName.isEmpty {
-                        //print("nginx not installed")
+                        print("nginx not installed")
                         serverObj.nginx.installed = false
                         serverObj.nginx.version = "None"
                         serverObj.nginx.status = "None"
@@ -222,7 +228,7 @@ struct initChecking: View {
 
                         serverObj.nginx.version = replacingString
                         serverObj.nginx.installed = true
-                        //debugPrint(replacingString)
+                        debugPrint("replacingString",serviceName[0]["Status"]!)
 
                         if serviceName[0]["Status"]! == "none" {
                             //print("nginx not started")
@@ -231,6 +237,11 @@ struct initChecking: View {
 
                         if serviceName[0]["Status"]! == "started" {
                             serverObj.nginx.status = "Running"
+                            //print("nginx started")
+                        }
+                        
+                        if serviceName[0]["Status"]! == "error" {
+                            serverObj.nginx.status = "Error"
                             //print("nginx started")
                         }
                     }
@@ -252,9 +263,11 @@ struct initChecking: View {
                         serverObj.mysql.version = "None"
                         serverObj.mysql.status = "None"
                     } else {
-                        let replacingString = runShellAndOutput("ls /usr/local/Cellar/mysql").1!.trim()
-                       
-                        serverObj.mysql.version = replacingString
+                        let replacingString = runShellAndOutput("mysql -V").1!.trim()
+                        let ranges = replacingString.match(pattern: #"[0-9]+\.[0-9]+\.[0-9]"#)
+                        let found:[String] = ranges.map { String(replacingString[$0]) }
+                        
+                        serverObj.mysql.version = found[0]
                         serverObj.mysql.installed = true
                         //debugPrint("serviceName",serviceName)
 
@@ -265,6 +278,11 @@ struct initChecking: View {
 
                         if serviceName[0]["Status"]! == "started" {
                             serverObj.mysql.status = "Running"
+                            //print("mysql started")
+                        }
+                        
+                        if serviceName[0]["Status"]! == "error" {
+                            serverObj.mysql.status = "Error"
                             //print("mysql started")
                         }
                     }
@@ -348,7 +366,16 @@ struct initChecking: View {
                 }
                 
                 
-                testNginx()
+                /*
+                let filePath = "/usr/local/etc/nginx/servers/geng_nginx.conf"
+                if !FileManager.default.fileExists(atPath: filePath){
+                    _ = try? shellOut(to: .createFile(named: filePath, contents: "hhhh"))
+                }
+                 */
+                
+                //print(serverObj.chipModel.contains("x86"))
+                //testNginx()
+
             }
     }
 }

@@ -186,6 +186,7 @@ struct home: View {
                     .cornerRadius(5)
 
             }.frame(width: 550, height: 28)
+                .padding([.bottom],8)
             VStack(spacing: 15) {
                 Spacer()
                     .frame(width: 550, height: 8)
@@ -227,6 +228,10 @@ struct home: View {
                             Circle().fill(Color("danger"))
                                 .frame(width: 10, height: 10)
                             Text("Stopped").foregroundColor(Color("danger"))
+                        } else if serverObj.nginx.status == "Error" {
+                            Circle().fill(Color("danger"))
+                                .frame(width: 10, height: 10)
+                            Text("Error").foregroundColor(Color("danger"))
                         } else {
                             Circle().fill(Color("danger"))
                                 .frame(width: 10, height: 10)
@@ -325,6 +330,10 @@ struct home: View {
                             Circle().fill(Color("danger"))
                                 .frame(width: 10, height: 10)
                             Text("Stopped").foregroundColor(Color("danger"))
+                        } else if serverObj.php.status == "Error" {
+                            Circle().fill(Color("danger"))
+                                .frame(width: 10, height: 10)
+                            Text("Error").foregroundColor(Color("danger"))
                         } else {
                             Circle().fill(Color("danger"))
                                 .frame(width: 10, height: 10)
@@ -452,6 +461,10 @@ struct home: View {
                             Circle().fill(Color("danger"))
                                 .frame(width: 10, height: 10)
                             Text("Stopped").foregroundColor(Color("danger"))
+                        }else if serverObj.mysql.status == "Error" {
+                            Circle().fill(Color("danger"))
+                                .frame(width: 10, height: 10)
+                            Text("Error").foregroundColor(Color("danger"))
                         } else {
                             Circle().fill(Color("danger"))
                                 .frame(width: 10, height: 10)
@@ -555,7 +568,7 @@ struct home: View {
                 ScrollViewReader { proxy in
                     ScrollView(showsIndicators: false) {
                         VStack(spacing: 3) {
-                            Text(self.consoleInfoPipe)
+                            Text(self.consoleInfoPipe).foregroundColor(Color.white)
 
                             Spacer().frame(width: 1, height: 1).id(bottomID)
                         }
