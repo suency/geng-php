@@ -14,7 +14,7 @@ struct runGengShellApple {
         let task = Process()
         task.launchPath = "/usr/bin/osascript"
         //task.launchPath = "/bin/zsh"
-        task.environment = ["PATH": "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin"]
+        task.environment = ["PATH": "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin:/opt/Homebrew/bin"]
         task.arguments = [args]
         //task.arguments = ["/Users/geng/Desktop/others/first.scpt"]
         //task.arguments = ["-c", args]
@@ -74,10 +74,11 @@ struct runGengShell {
     func runCode(_ args: String,onComplete:@escaping ()->Void) {
         let task = Process()
         task.launchPath = "/bin/zsh"
-        task.environment = ["PATH": "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin"]
+        task.environment = ["PATH": "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin:/opt/Homebrew/bin"]
         task.arguments = ["-c", args]
         let outputPipe = Pipe()
         task.standardOutput = outputPipe
+        task.standardError = outputPipe
         let outputHandle = outputPipe.fileHandleForReading
         outputHandle.readabilityHandler = { pipe in
             if let ouput = String(data: pipe.availableData, encoding: .utf8) {

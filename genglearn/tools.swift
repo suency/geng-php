@@ -30,6 +30,7 @@ struct LoadingView: PreviewProvider {
 
 struct Tools {
     static func getBrewListData(_ testMystring:String)->[[String:String]]{
+        
         let rows = testMystring.split(separator: "\n").map(String.init)
         
         let twoRows = rows.map{
@@ -38,8 +39,15 @@ struct Tools {
         var finalResult:[[String:String]] = twoRows.map{
             Dictionary(uniqueKeysWithValues: zip(twoRows[0],$0))
         }
-        finalResult.remove(at: 0)
-        return finalResult
+        
+        if finalResult.count > 0 {
+            finalResult.remove(at: 0)
+            return finalResult
+        } else {
+            return [["Name":"FatalError"]]
+        }
+        
+        
     }
 }
 

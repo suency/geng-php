@@ -19,6 +19,7 @@
 		B1915B88294F189200C6A47E /* tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1915B87294F189200C6A47E /* tools.swift */; };
 		B1B45E9C294CABB100DFFA08 /* fileOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B45E9B294CABB100DFFA08 /* fileOperations.swift */; };
 		B1BCA9E729532A2B00D57A96 /* nginxParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1BCA9E629532A2B00D57A96 /* nginxParser.swift */; };
+		B1CD5D1129556C0500413889 /* gengComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CD5D1029556C0500413889 /* gengComponents.swift */; };
 		B1CDE8DB29484BB00079D226 /* genglearnApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CDE8DA29484BB00079D226 /* genglearnApp.swift */; };
 		B1CDE8DD29484BB00079D226 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CDE8DC29484BB00079D226 /* ContentView.swift */; };
 		B1CDE8DF29484BB10079D226 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1CDE8DE29484BB10079D226 /* Assets.xcassets */; };
@@ -40,6 +41,7 @@
 		B1915B87294F189200C6A47E /* tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tools.swift; sourceTree = "<group>"; };
 		B1B45E9B294CABB100DFFA08 /* fileOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fileOperations.swift; sourceTree = "<group>"; };
 		B1BCA9E629532A2B00D57A96 /* nginxParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nginxParser.swift; sourceTree = "<group>"; };
+		B1CD5D1029556C0500413889 /* gengComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gengComponents.swift; sourceTree = "<group>"; };
 		B1CDE8D729484BB00079D226 /* GengPHP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GengPHP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1CDE8DA29484BB00079D226 /* genglearnApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = genglearnApp.swift; sourceTree = "<group>"; };
 		B1CDE8DC29484BB00079D226 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 			children = (
 				B1CDE8DA29484BB00079D226 /* genglearnApp.swift */,
 				B1CDE8DC29484BB00079D226 /* ContentView.swift */,
+				B1CD5D1029556C0500413889 /* gengComponents.swift */,
 				B137D36629488BB800DE5C75 /* nginx.swift */,
 				B137D36A29488C7800DE5C75 /* php.swift */,
 				B137D36C29488C9F00DE5C75 /* redis.swift */,
@@ -217,6 +220,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B1CD5D1129556C0500413889 /* gengComponents.swift in Sources */,
 				B1EA231F2948761E00AAD3FD /* home.swift in Sources */,
 				B137D36729488BB800DE5C75 /* nginx.swift in Sources */,
 				B137D36929488C5500DE5C75 /* mysql.swift in Sources */,
@@ -269,8 +273,10 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Apple Development: wfugrcw.sfgd@outlook.com (7X6647KZ6S)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -329,8 +335,10 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Apple Development: wfugrcw.sfgd@outlook.com (7X6647KZ6S)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -357,6 +365,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = genglearn/genglearn.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -390,6 +399,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = genglearn/genglearn.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Regex
 import ShellOut
 import SwiftShell
 import SwiftUI
@@ -37,7 +38,7 @@ struct installItem: View {
                 Image(logo).resizable()
                     .interpolation(.high)
                     .frame(width: 25, height: 25)
-                Text(logoContent)
+                Text(logoContent).foregroundColor(.white)
             }
             .frame(width: 55, height: 55)
             .background(Color(logoColor))
@@ -68,16 +69,27 @@ struct installModel: View {
     @Binding var log: String
     var body: some View {
         VStack(spacing: 10) {
+            Text("Note: You should install brewTap if you want to install php < 8! Because Brew does not support php < 8")
+                .foregroundColor(.white)
+                .padding(10)
+            
             HStack(spacing: 12) {
-                installItem(logo: "nginx", logoContent: "nginx", logoColor: "nginx", hoverText: "install") {
+                installItem(logo: "nginx", logoContent: "Nginx", logoColor: "nginx", hoverText: "install") {
                     let filepath = Bundle.main.path(forResource: "scpt/nginx", ofType: "scpt")
                     runGengShellApple(log: self.$log).runCode(filepath!) {
                         print("ok")
                     }
                 }
 
-                installItem(logo: "php", logoContent: "Php", logoColor: "php", hoverText: "install") {
+                installItem(logo: "php", logoContent: "Php8", logoColor: "php", hoverText: "install") {
                     let filepath = Bundle.main.path(forResource: "scpt/php", ofType: "scpt")
+                    runGengShellApple(log: self.$log).runCode(filepath!) {
+                        print("ok")
+                    }
+                }
+                
+                installItem(logo: "php", logoContent: "Php7", logoColor: "php", hoverText: "install") {
+                    let filepath = Bundle.main.path(forResource: "scpt/php7", ofType: "scpt")
                     runGengShellApple(log: self.$log).runCode(filepath!) {
                         print("ok")
                     }
@@ -93,20 +105,36 @@ struct installModel: View {
                 // installItem(logo: "apache", logoContent: "Apache", logoColor: "apache", hoverText: "install", installAction: {})
             }
             HStack(spacing: 12) {
-                installItem(logo: "brew", logoContent: "Brew", logoColor: "brew", hoverText: "install") {
+                installItem(logo: "php", logoContent: "Php5", logoColor: "php", hoverText: "install") {
+                    let filepath = Bundle.main.path(forResource: "scpt/php5", ofType: "scpt")
+                    runGengShellApple(log: self.$log).runCode(filepath!) {
+                        print("ok")
+                    }
+                }
+                
+                installItem(logo: "brew", logoContent: "BrewCN", logoColor: "mirror", hoverText: "安装") {
+                    let filepath = Bundle.main.path(forResource: "scpt/brew_cn", ofType: "scpt")
+                    runGengShellApple(log: self.$log).runCode(filepath!) {
+                        print("ok")
+                    }
+                }
+                
+                installItem(logo: "brew", logoContent: "BrewEN", logoColor: "brew", hoverText: "install") {
                     let filepath = Bundle.main.path(forResource: "scpt/brew", ofType: "scpt")
                     runGengShellApple(log: self.$log).runCode(filepath!) {
                         print("ok")
                     }
                 }
-                installItem(logo: "brew", logoContent: "Brew_cn", logoColor: "mirror", hoverText: "安装") {
-                    let filepath = Bundle.main.path(forResource: "scpt/brew_cn", ofType: "scpt")
+                
+                installItem(logo: "brew", logoContent: "BrewTap", logoColor: "brew", hoverText: "install") {
+                    let filepath = Bundle.main.path(forResource: "scpt/brew", ofType: "scpt")
                     runGengShellApple(log: self.$log).runCode(filepath!) {
                         print("ok")
                     }
                 }
             }
             Text("Close and Restart")
+                .foregroundColor(.white)
                 .frame(width: 150, height: 30)
                 .contentShape(Rectangle())
                 .onTapGesture(perform: {
@@ -119,7 +147,7 @@ struct installModel: View {
                 .background(Color("main4"))
                 .cornerRadius(10)
         }
-        .frame(width: 300, height: 200)
+        .frame(width: 350, height: 260)
         .background(Color("mainbg"))
     }
 }
@@ -167,7 +195,23 @@ struct home: View {
                     .foregroundColor(Color.white)
                     .background(Color("main4"))
                     .cornerRadius(5)
-
+                    .opacity(0)
+                
+                Text("Fix Brew").frame(width: 85, height: 25)
+                    .contentShape(Rectangle())
+                    .onTapGesture(perform: {
+                        let brewHome = serverObj.chipModel.contains(pattern: "x86") ? serverObj.x86BrewHome : serverObj.armBrewHome
+                        let fixCode = "git config --global --add safe.directory \(brewHome)/Homebrew/Library/Taps/homebrew/homebrew-core;git config --global --add safe.directory \(brewHome)/Homebrew/Library/Taps/homebrew/homebrew-cask"
+                        serverObj.loading = true
+                        runGengShell(log: self.$consoleInfoPipe).runCode(fixCode) {
+                            serverObj.loading = false
+                            print("fixed")
+                        }
+                    })
+                    .foregroundColor(Color.white)
+                    .background(Color("main4"))
+                    .cornerRadius(5)
+                
                 Text("Install").frame(width: 65, height: 25)
                     .contentShape(Rectangle())
                     .onTapGesture(perform: {
@@ -178,7 +222,7 @@ struct home: View {
                                 installModel(showInstall: $showInstall, log: $consoleInfoPipe)
                             }
                         }
-                        .frame(width: 300, height: 200)
+                        .frame(width: 350, height: 260)
                         .background(Color("mainbg"))
                     })
                     .foregroundColor(Color.white)
@@ -366,13 +410,6 @@ struct home: View {
                         .frame(width: 65)
                         .cornerRadius(3)
 
-                        /*
-                         Triangle().fill(Color("info")).frame(width: 10, height: 10).contentShape(Rectangle())
-                             .onTapGesture {
-                                phpVersionShow = true
-                             }
-                             //.sheet(isPresented: $phpVersionShow){}
-                          */
                     }.frame(width: 75, alignment: .leading)
 
                     HStack {
@@ -382,10 +419,11 @@ struct home: View {
                                     .contentShape(Rectangle())
                                     .onTapGesture {
                                         serverObj.loading = true
-                                        runGengShell(log: self.$consoleInfoPipe).phpStop {
+             
+                                        runGengShell(log: self.$consoleInfoPipe).runCode("brew services stop \(serverObj.php.version.0)") {
                                             serverObj.php.status = "Stopped"
                                             serverObj.loading = false
-                                            print("stopped")
+                                            print("\(serverObj.php.version.0) stopped")
                                         }
                                     }
                                     .foregroundColor(Color.white)

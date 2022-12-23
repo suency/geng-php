@@ -34,3 +34,13 @@ ps -ef|grep mysql
 
 ## nginx
 ps -ef | grep nginx | grep -v grep
+
+#https://github.com/shivammathur/homebrew-php
+
+brew link --overwrite --force shivammathur/php/php@8.1
+brew upgrade shivammathur/php/php@8.1
+
+//third party brew
+brew tap shivammathur/php
+//install PHP
+brew install shivammathur/php/php@7.3

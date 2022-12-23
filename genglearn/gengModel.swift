@@ -12,6 +12,11 @@ class ServerModel: ObservableObject {
     @Published var mysql = mysqlObj()
     @Published var loading = false
     @Published var chipModel = "x86"
+    @Published var armCellar = "/opt/Homebrew/Cellar"
+    @Published var x86Cellar = "/usr/local/Cellar"
+    @Published var armBrewHome = "/opt"
+    @Published var x86BrewHome = "/usr/local"
+    @Published var debugLog = "debug:\n"
 }
 
 struct nginxObj {
