@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import SwiftUI
+
 class ServerModel: ObservableObject {
     @Published var nginx = nginxObj()
     @Published var php = phpObj()
@@ -38,3 +40,16 @@ struct mysqlObj {
     var version = "8.0.1"
 }
 
+
+class websiteModel: ObservableObject {
+    //@Published var data = [["port": "12698", "hostname": "localhost", "rootDir": "","id":UUID().uuidString]]
+    @Published var data = [webItem()]
+    
+}
+
+struct webItem:Hashable, Identifiable {
+    var port:String = "8686"
+    var hostname:String = "localhost"
+    var rootDir:String = "\(homePath)/gengphp"
+    var id:String = UUID().uuidString
+}

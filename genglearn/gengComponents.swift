@@ -8,12 +8,12 @@
 import Foundation
 import SwiftUI
 
-struct gengModalBrew:View {
-    @Binding var log:String
-    @Binding var showInstall:Bool
+struct gengModalBrew: View {
+    @Binding var log: String
+    @Binding var showInstall: Bool
     @EnvironmentObject var serverObj: ServerModel
     var body: some View {
-        VStack(spacing: 8){
+        VStack(spacing: 8) {
             Text("You have not installed brew")
             Text("Please install first, CN is for China")
             HStack(spacing: 15) {
@@ -29,9 +29,8 @@ struct gengModalBrew:View {
                         print("ok")
                     }
                 }
-                
             }
-            HStack{
+            HStack {
                 Text("Cancel")
                     .foregroundColor(.white)
                     .frame(width: 55, height: 25)
@@ -41,7 +40,7 @@ struct gengModalBrew:View {
                     })
                     .background(Color("main4"))
                     .cornerRadius(5)
-                
+
                 Text("Restart")
                     .foregroundColor(.white)
                     .frame(width: 70, height: 25)
@@ -55,7 +54,7 @@ struct gengModalBrew:View {
                     })
                     .background(Color("main4"))
                     .cornerRadius(5)
-                
+
                 Text("Fix Brew").frame(width: 80, height: 25)
                     .contentShape(Rectangle())
                     .onTapGesture(perform: {
@@ -71,11 +70,70 @@ struct gengModalBrew:View {
                     .background(Color("main4"))
                     .cornerRadius(5)
             }
-            
         }
         .foregroundColor(.white)
-        .frame(width: 250,height: 180)
+        .frame(width: 250, height: 180)
         .background(Color("mainbg"))
         .cornerRadius(10)
+    }
+}
+
+struct showFormPreview: PreviewProvider {
+    static var previews: some View {
+        nginxConfig()
+    }
+}
+
+/*
+ .toast(isPresenting: $gengToast,duration: 5){
+     AlertToast(type: .regular, title: "Message Sent!",style: .style(backgroundColor:Color("main4")))
+ }
+ */
+
+
+extension View {
+    func placeholder<Content: View>(
+        when shouldShow: Bool,
+        alignment: Alignment = .leading,
+        @ViewBuilder placeholder: () -> Content) -> some View {
+
+        ZStack(alignment: alignment) {
+            placeholder()
+                .padding(.leading,8)
+                .opacity(shouldShow ? 1 : 0)
+            self
+        }
+    }
+}
+
+
+struct nginxConfig: View {
+    @State var text: String = ""
+    var body: some View {
+        VStack {
+            Form {
+                TextField("", text: $text)
+                    .placeholder(when: text.isEmpty) {
+                            Text("Placeholder recreated").foregroundColor(.gray)
+                    }
+                    .padding(10)
+                    .foregroundColor(Color("healthy"))
+                    .background(Color("inputbg"))
+
+                    .cornerRadius(5)
+                    .textFieldStyle(PlainTextFieldStyle())
+
+                TextField("", text: $text)
+                    .padding(10)
+                    .foregroundColor(Color("healthy"))
+                    .background(Color("inputbg"))
+                    .cornerRadius(5)
+                    .textFieldStyle(PlainTextFieldStyle())
+            }
+        }
+        .foregroundColor(.white)
+        .padding(30)
+        .frame(width: 450, height: 350, alignment: .topLeading)
+        .background(Color("mainbg"))
     }
 }

@@ -44,3 +44,14 @@ brew upgrade shivammathur/php/php@8.1
 brew tap shivammathur/php
 //install PHP
 brew install shivammathur/php/php@7.3
+
+#https://wiki.nikiv.dev/programming-languages/swift/swift-libraries/
+
+#https://kevdees.com/macos-12-monterey-nginx-setup-multiple-php-versions/
+#config
+
+open -a TextEdit /usr/local/etc/nginx/servers/geng_nginx.conf
+
+
+#mysql port
+echo "show variables like \"port\""|mysql -uroot|sed 1d|awk '{print $2}'

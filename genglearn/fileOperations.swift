@@ -76,23 +76,33 @@ func readFileGeng(source: URL) {
 }
 
 func writeFileGeng(source: URL,content:String, startOrEnd:String = "override") {
+    var isNewFile = false
     if !FileManager.default.fileExists(atPath: source.path) {
         FileManager.default.createFile(atPath: source.path, contents: nil, attributes: nil)
+        isNewFile = true
     }
 
     let fileHandle = FileHandle(forWritingAtPath: source.path)!
     if startOrEnd == "override" {
-        try? content.write(to: source, atomically: true, encoding: .utf8)
+       
+        try? fileHandle.truncate(atOffset: 0)
+        fileHandle.write(content.data(using: .utf8)!)
     } else {
         fileHandle.seekToEndOfFile()
-        fileHandle.write(content.data(using: .utf8)!)
+        var newContent = ""
+        newContent = isNewFile ? content: ("\n\n" + content)
+        
+        fileHandle.write(newContent.data(using: .utf8)!)
+        print("hehe2")
     }
     
     try? fileHandle.close()
-
+    
+    /*
     if let contentInner = try? String(contentsOfFile: source.path, encoding: .utf8) {
         print(contentInner)
     }
+     */
 }
 
 func getFilePermissionGeng(source: URL) {

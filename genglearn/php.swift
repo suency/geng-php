@@ -16,7 +16,7 @@ struct php:View{
                 Text("php control panel is in developing")
                     .foregroundColor(Color("maintext"))
             }
-            .frame(width: 520,height: 140)
+            .frame(width: 560,height: 140)
             .background(Color("mainbg"))
             .cornerRadius(12)
             .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 4)

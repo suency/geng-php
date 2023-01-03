@@ -72,7 +72,7 @@ struct installModel: View {
             Text("Note: You should install brewTap if you want to install php < 8! Because Brew does not support php < 8")
                 .foregroundColor(.white)
                 .padding(10)
-            
+
             HStack(spacing: 12) {
                 installItem(logo: "nginx", logoContent: "Nginx", logoColor: "nginx", hoverText: "install") {
                     let filepath = Bundle.main.path(forResource: "scpt/nginx", ofType: "scpt")
@@ -87,7 +87,7 @@ struct installModel: View {
                         print("ok")
                     }
                 }
-                
+
                 installItem(logo: "php", logoContent: "Php7", logoColor: "php", hoverText: "install") {
                     let filepath = Bundle.main.path(forResource: "scpt/php7", ofType: "scpt")
                     runGengShellApple(log: self.$log).runCode(filepath!) {
@@ -111,21 +111,21 @@ struct installModel: View {
                         print("ok")
                     }
                 }
-                
+
                 installItem(logo: "brew", logoContent: "BrewCN", logoColor: "mirror", hoverText: "安装") {
                     let filepath = Bundle.main.path(forResource: "scpt/brew_cn", ofType: "scpt")
                     runGengShellApple(log: self.$log).runCode(filepath!) {
                         print("ok")
                     }
                 }
-                
+
                 installItem(logo: "brew", logoContent: "BrewEN", logoColor: "brew", hoverText: "install") {
                     let filepath = Bundle.main.path(forResource: "scpt/brew", ofType: "scpt")
                     runGengShellApple(log: self.$log).runCode(filepath!) {
                         print("ok")
                     }
                 }
-                
+
                 installItem(logo: "brew", logoContent: "BrewTap", logoColor: "brew", hoverText: "install") {
                     let filepath = Bundle.main.path(forResource: "scpt/brew", ofType: "scpt")
                     runGengShellApple(log: self.$log).runCode(filepath!) {
@@ -164,6 +164,8 @@ struct showInstallPreview: PreviewProvider {
     }
 }
 
+
+
 struct home: View {
     // @State var consoleInfo: [String] = []
     @State var consoleInfoPipe: String = ""
@@ -180,23 +182,6 @@ struct home: View {
                     .foregroundColor(Color("maintext"))
                 Spacer()
 
-                Text("Test").frame(width: 65, height: 25)
-                    .contentShape(Rectangle())
-                    .onTapGesture(perform: {
-                        //let filepath = Bundle.main.path(forResource: "scpt/brew_cn", ofType: "scpt")
-                        //runGengShellApple(log: self.$consoleInfoPipe).runCode(filepath!) {
-                          //  print("ok")
-                        //}
-
-                        // runGengShell(log: self.$consoleInfoPipe).checkLocalBrew()
-                        // runGengShell(log: self.$consoleInfoPipe).nginxStart()
-                        // runGengShell(log: self.$consoleInfoPipe).pingTest()
-                    })
-                    .foregroundColor(Color.white)
-                    .background(Color("main4"))
-                    .cornerRadius(5)
-                    .opacity(0)
-                
                 Text("Fix Brew").frame(width: 85, height: 25)
                     .contentShape(Rectangle())
                     .onTapGesture(perform: {
@@ -211,7 +196,7 @@ struct home: View {
                     .foregroundColor(Color.white)
                     .background(Color("main4"))
                     .cornerRadius(5)
-                
+
                 Text("Install").frame(width: 65, height: 25)
                     .contentShape(Rectangle())
                     .onTapGesture(perform: {
@@ -230,7 +215,7 @@ struct home: View {
                     .cornerRadius(5)
 
             }.frame(width: 550, height: 28)
-                .padding([.bottom],8)
+                .padding([.bottom], 8)
             VStack(spacing: 15) {
                 Spacer()
                     .frame(width: 550, height: 8)
@@ -337,10 +322,26 @@ struct home: View {
                                 .foregroundColor(Color.white)
                                 .background(Color("main4"))
                                 .cornerRadius(5)
-                            Text("Setting").frame(width: 65, height: 22)
+                            Text("Config").frame(width: 65, height: 22)
                                 .foregroundColor(Color.white)
                                 .background(Color("info"))
                                 .cornerRadius(5)
+                                .contentShape(Rectangle())
+                                .onTapGesture {
+                                    ///opt/homebrew/etc/nginx/nginx.conf
+
+                                    let configPath = serverObj.chipModel.contains(pattern: "x86") ? "/usr/local/etc/nginx/servers/geng_nginx.conf" : "/opt/homebrew/etc/nginx/servers/geng_nginx.conf"
+                                    
+                                    // file does not exist, create and add basic content
+                                    if !FileManager.default.fileExists(atPath: configPath){
+                                        writeFileGeng(source: URL(string: configPath)!, content: configData.basicNginx)
+                                    }
+                                    
+                                    // open config file
+                                    runGengShell(log: self.$consoleInfoPipe).runCode("open -a TextEdit \(configPath)"){
+                                        print("ok")
+                                    }
+                                }
                         }
 
                     }.frame(width: 180, alignment: .leading)
@@ -419,7 +420,7 @@ struct home: View {
                                     .contentShape(Rectangle())
                                     .onTapGesture {
                                         serverObj.loading = true
-             
+
                                         runGengShell(log: self.$consoleInfoPipe).runCode("brew services stop \(serverObj.php.version.0)") {
                                             serverObj.php.status = "Stopped"
                                             serverObj.loading = false
@@ -499,7 +500,7 @@ struct home: View {
                             Circle().fill(Color("danger"))
                                 .frame(width: 10, height: 10)
                             Text("Stopped").foregroundColor(Color("danger"))
-                        }else if serverObj.mysql.status == "Error" {
+                        } else if serverObj.mysql.status == "Error" {
                             Circle().fill(Color("danger"))
                                 .frame(width: 10, height: 10)
                             Text("Error").foregroundColor(Color("danger"))

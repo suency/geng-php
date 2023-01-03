@@ -8,6 +8,7 @@ import Foundation
 import Regex
 import ShellOut
 import SwiftUI
+import AlertToast
 
 struct gengMenu: MenuStyle {
     func makeBody(configuration: Configuration) -> some View {
@@ -39,8 +40,10 @@ func runShellAndOutput(_ command: String) -> (Int32, String?) {
 
 struct ContentView: View {
     @StateObject var serverObj = ServerModel()
+    @StateObject var webObj = websiteModel()
     @State var showChecking = false
     @State var showCheckingBrew = false
+    @State var gengToast = false
     @State var dummyLog: String = ""
     @State var menuList = [
         menuItem(imageName: "home", manuName: "home", selected: true, myview: AnyView(home())),
@@ -110,7 +113,8 @@ struct ContentView: View {
             .onAppear {
                 DispatchQueue.main.async {
                     self.showChecking = true
-                    self.currentIndex = 0
+                    self.gengToast = true
+                    self.currentIndex = 1
                 }
 
                 serverObj.debugLog += "\n top \n"
@@ -122,6 +126,7 @@ struct ContentView: View {
                 // checking brew is installed
                 gengModalBrew(log: self.$dummyLog, showInstall: self.$showCheckingBrew)
             }
+            
             .frame(width: 800, height: 500, alignment: .leading)
             .background(Color("appbg"))
 
@@ -132,7 +137,8 @@ struct ContentView: View {
                     .opacity(0.4)
                 ProgressView().colorScheme(.dark)
             }
-
+            
+            //nginxConfig()
             // gengModalBrew(log: self.$dummyLog)
             // debug
             /*
@@ -145,7 +151,9 @@ struct ContentView: View {
                 .background(Color("main").opacity(0.6)).offset(x: -250, y: 130)
              */
 
-        }.environmentObject(serverObj)
+        }
+        .environmentObject(serverObj)
+        .environmentObject(webObj)
     }
 }
 
@@ -417,7 +425,7 @@ struct initChecking: View {
                   */
 
                 // print(serverObj.chipModel.contains("x86"))
-                // testNginx()
+                //testNginx()
             }
     }
 }
