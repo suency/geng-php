@@ -25,6 +25,7 @@ struct web: View {
                     .contentShape(Rectangle())
                     .onTapGesture {
                         print("hehe")
+                        nginxParser.conf_to_json()
                     }
                     .foregroundColor(Color.white)
                     .background(Color("main4"))

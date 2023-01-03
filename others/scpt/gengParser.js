@@ -402,7 +402,7 @@ function json_to_conf(json){
 }
 
 function conf_to_json(conf){
-    return JSON.stringify(p.toJSON(gengConf))
+    return JSON.stringify(p.toJSON(conf))
 }
 //console.log(p.toConf(gengJSON))
 //console.log(p.toJSON(gengConf))
