@@ -402,7 +402,13 @@ function json_to_conf(json){
 }
 
 function conf_to_json(conf){
-    return JSON.stringify(p.toJSON(conf))
+    let tem = p.toJSON(conf);
+    if (tem.server.length == undefined){
+        tem.server = [tem.server]
+    }
+    return JSON.stringify(tem)
 }
+
+
 //console.log(p.toConf(gengJSON))
 //console.log(p.toJSON(gengConf))
