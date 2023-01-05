@@ -114,7 +114,7 @@ struct ContentView: View {
                 DispatchQueue.main.async {
                     self.showChecking = true
                     self.gengToast = true
-                    self.currentIndex = 1
+                    self.currentIndex = 0
                 }
 
                 serverObj.debugLog += "\n top \n"

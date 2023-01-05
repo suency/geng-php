@@ -5,6 +5,7 @@
 //  Created by geng on 2022/12/13.
 //
 
+import AlertToast
 import Foundation
 import SwiftUI
 import SwiftyJSON
@@ -13,8 +14,13 @@ struct web: View {
     @EnvironmentObject var serverObj: ServerModel
     @EnvironmentObject var websiteObj: websiteModel
     @State var consoleInfoPipe: String = ""
-    @State var submitData :JSON = ["server":[]]
+    @State var submitData: JSON = ["server": []]
 
+    @State var displayAlert = false
+    @State var displayDelete = false
+    @State var displayAlertTitle = ""
+    
+    @Environment(\.openURL) var openURL
     func initConfig() {
         let resJson = nginxParser(chipModel: serverObj.chipModel).conf_to_json()
 
@@ -68,8 +74,16 @@ struct web: View {
                 Text("Save").frame(width: 65, height: 25)
                     .contentShape(Rectangle())
                     .onTapGesture {
-                        print(nginxParser(chipModel: serverObj.chipModel).json_to_conf(json: submitData.rawString()!))
+                        let configPath = serverObj.chipModel.contains(pattern: "x86") ? "/usr/local/etc/nginx/servers/geng_nginx.conf" : "/opt/homebrew/etc/nginx/servers/geng_nginx.conf"
+                        // file does not exist, create and add basic content
+
+                        let writeContent = nginxParser(chipModel: serverObj.chipModel).json_to_conf(json: submitData.rawString()!)
+                        writeFileGeng(source: URL(string: configPath)!, content: writeContent)
+                        self.displayAlert = true
+                        self.displayAlertTitle = "Save Successfully!"
+                        print(writeContent)
                     }
+
                     .foregroundColor(Color.white)
                     .background(Color("nginx"))
                     .cornerRadius(5)
@@ -115,23 +129,56 @@ struct web: View {
                                     .cornerRadius(5)
                                     .textFieldStyle(PlainTextFieldStyle())
 
-                                Text("Select").frame(width: 55, height: 31)
+                                Text("\(Image(systemName: "highlighter"))")
+                                    .font(.system(size: 17))
+                                    .frame(width: 35, height: 31)
                                     .contentShape(Rectangle())
                                     .onTapGesture {
-                                        selectDir(index:index)
+                                        selectDir(index: index)
                                     }
                                     .foregroundColor(Color.white)
                                     .background(Color("main4"))
                                     .cornerRadius(5)
 
-                                Text("Delete").frame(width: 55, height: 31)
+                                Text("\(Image(systemName: "trash"))")
+                                    .font(.system(size: 15))
+                                    .frame(width: 35, height: 31)
                                     .contentShape(Rectangle())
                                     .onTapGesture {
-                                        print("hehe")
+                                        //self.displayDelete = true
+                                        self.websiteObj.data.remove(at: index)
                                     }
+                                    /*
+                                    .alert(
+                                        Text("Delete the web on port \(self.websiteObj.data[index].port)?"),
+                                        isPresented: $displayDelete,
+                                        presenting: ["name":"niu"]
+                                    ) { details in
+                                        Button(role: .destructive) {
+                                            self.displayAlert = true
+                                            self.displayAlertTitle = "Delete Sucessfully!"
+                                            self.websiteObj.data.remove(at: index)
+                                        } label: {
+                                            Text("Delete the port  \(self.websiteObj.data[index].port)")
+                                        }
+                                        
+                                    }
+                                     */
                                     .foregroundColor(Color.white)
                                     .background(Color("danger"))
                                     .cornerRadius(5)
+                                
+                                Text("\(Image(systemName: "safari"))")
+                                    .font(.system(size: 17))
+                                    .frame(width: 35, height: 31)
+                                    .contentShape(Rectangle())
+                                    .onTapGesture {
+                                        openURL(URL(string: "http://localhost:\(self.websiteObj.data[index].port)")!)
+                                    }
+                                    .foregroundColor(Color.white)
+                                    .background(Color("main4"))
+                                    .cornerRadius(5)
+
                             }
                         }
                         /*
@@ -197,25 +244,23 @@ struct web: View {
                     .onChange(of: websiteObj.data) { _ in
                         let basicNginx = nginxParser(chipModel: serverObj.chipModel).conf_to_json_basic()
                         // var finalRusult = JSON(basicNginx)
-                        var finalJson :JSON = ["server":[]]
+                        var finalJson: JSON = ["server": []]
 
                         if let dataFromString = basicNginx.data(using: .utf8, allowLossyConversion: false) {
                             var json = try? JSON(data: dataFromString)
                             for item in websiteObj.data {
-                                
                                 json!["server"][0]["listen"] = JSON(stringLiteral: item.port)
-                                
+
                                 json!["server"][0]["root"] = JSON(stringLiteral: item.rootDir)
-                                
+
                                 json!["server"][0]["server_name"] = JSON(stringLiteral: item.hostname)
-                                
+
                                 finalJson["server"].arrayObject = finalJson["server"].arrayObject! + json!["server"].arrayObject!
-                                
                             }
                         }
-                        
+
                         submitData = finalJson
-                        //print(submitData)
+                        // print(submitData)
                     }
                 }
                 .padding(20)
@@ -231,9 +276,12 @@ struct web: View {
             .onAppear {
                 self.initConfig()
             }
+            .toast(isPresenting: $displayAlert) {
+                AlertToast(type: .systemImage("checkmark.circle.fill", Color("danger")), title: displayAlertTitle, style: AlertToast.AlertStyle.style(backgroundColor: Color("main4"),titleColor: .white))
+            }
     }
 
-    func selectDir(index:Int) {
+    func selectDir(index: Int) {
         let dialog = NSOpenPanel()
 
         dialog.title = "Choose a Directory"
@@ -248,8 +296,8 @@ struct web: View {
 
             if result != nil {
                 let path: String = result!.path
-                
-                self.websiteObj.data[index].rootDir = path
+
+                websiteObj.data[index].rootDir = path
                 print(path)
                 // path contains the file path e.g
                 // /Users/ourcodeworld/Desktop/file.txt

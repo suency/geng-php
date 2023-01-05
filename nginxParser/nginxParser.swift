@@ -47,22 +47,13 @@ struct nginxParser {
                 
                 if !FileManager.default.fileExists(atPath: configPath){
                     writeFileGeng(source: URL(string: configPath)!, content: configData.basicNginx)
-                } else {
-                    //writeFileGeng(source: URL(string: configPath)!, content: result2!.toString(),startOrEnd:"append")
-                    let configContent = try shellOut(to: .readFile(at: configPath))
-                    
-                    
-                    let parseJSON = context.objectForKeyedSubscript("conf_to_json")
-                    let result = parseJSON?.call(withArguments: [configContent])
-                    
-                    
-                    //let modif = self.change_config(result!.toString(),port: "12121", root: "/Users/geng/Desktop/gengphp1",index:0)
-                    //let parseConf = context.objectForKeyedSubscript("json_to_conf")
-                    //let result2 = parseConf?.call(withArguments: [modif!.rawString()!])
-                    //print(result!)
-                    return result!.toString()
-                    
                 }
+                
+                let configContent = try shellOut(to: .readFile(at: configPath))
+                let parseJSON = context.objectForKeyedSubscript("conf_to_json")
+                let result = parseJSON?.call(withArguments: [configContent])
+                
+                return result!.toString()
 
             }
             catch {
