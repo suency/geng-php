@@ -1,3 +1,4 @@
+/*
 let gengJSON = {
     "upstream node_upstream": {
         "ip_hash": "",
@@ -39,6 +40,7 @@ let gengJSON = {
     }
 }
 
+
 let gengConf = `upstream node_upstream {
     ip_hash;
     server     192.168.1.2:9000 max_fails=5 fail_timeout=30;
@@ -78,7 +80,7 @@ server {
     }
 
 }`
-
+ */
 
 function unsafeKey(key) {
     return key.replace(/(!)/g, '.')
