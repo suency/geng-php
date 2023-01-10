@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src="https://raw.githubusercontent.com/suency/geng-php/master/screenshots/logo2.png?token=GHSAT0AAAAAAB4KIBJHT66NEYIJANXUQ3DCY5435SQ" alt="GengCMS" width="200">
+  <img src="https://raw.githubusercontent.com/suency/geng-php/master/screenshots/logo2.png" alt="GengCMS" width="200">
   <br>
   <br>
   <a href="https://gengphp.com/">GengPHP</a>
@@ -29,9 +29,9 @@
 
 ![](https://raw.githubusercontent.com/suency/geng-php/master/screenshots/home.png)
 
-![](https://raw.githubusercontent.com/suency/geng-php/master/screenshots/web.png?token=GHSAT0AAAAAAB4KIBJH4TFKGUGFIJHQVOEWY544BAQ)
+![](https://raw.githubusercontent.com/suency/geng-php/master/screenshots/web.png)
 
-![](https://raw.githubusercontent.com/suency/geng-php/master/screenshots/install.png?token=GHSAT0AAAAAAB4KIBJGUVDRYNNYV3IR3F7YY544BKQ)
+![](https://raw.githubusercontent.com/suency/geng-php/master/screenshots/install.png)
 
 ## Key Features
 
