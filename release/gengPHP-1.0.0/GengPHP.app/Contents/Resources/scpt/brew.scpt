@@ -1,1 +1,0 @@
-tell application "Terminal"    activate    set currentTab to do script ("/bin/zsh -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"")end tell

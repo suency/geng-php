@@ -1,1 +1,0 @@
-# https://github.com/shivammathur/homebrew-phptell application "Terminal"    activate    set currentTab to do script ("/bin/zsh -c brew tap shivammathur/php")end tell

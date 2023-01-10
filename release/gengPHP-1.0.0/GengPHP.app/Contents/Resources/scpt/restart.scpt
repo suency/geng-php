@@ -1,1 +1,0 @@
-tell application "GengPHP"    quitend telldelay 1tell application "GengPHP"    #activate    launch    activateend tell

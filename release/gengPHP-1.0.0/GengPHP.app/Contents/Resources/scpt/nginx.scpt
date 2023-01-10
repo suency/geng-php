@@ -1,1 +1,0 @@
--- do shell script "/bin/zsh -c brew install nginx"tell application "Terminal"    activate    set currentTab to do script ("brew install nginx")end tell
