@@ -21,7 +21,7 @@ struct gengMenu: MenuStyle {
 func runShellAndOutput(_ command: String) -> (Int32, String?) {
     let task = Process()
     task.launchPath = "/bin/zsh"
-    task.environment = ["PATH": "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/mysql/bin"]
+    task.environment = ["PATH": "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin:/opt/Homebrew/bin"]
     task.arguments = ["-c", command]
 
     let pipe = Pipe()
@@ -66,8 +66,8 @@ struct ContentView: View {
                             .interpolation(.high)
                             .frame(width: 50, height: 50)
                         VStack(alignment: .leading) {
-                            Text("GENG").font(.system(size: 18))
-                            Text("PHP").font(.system(size: 18))
+                            Text("GENG").font(.system(size: 18,weight: .semibold))
+                            Text("PHP").font(.system(size: 18,weight: .semibold))
                         }
 
                         .foregroundColor(Color("danger"))
@@ -90,14 +90,15 @@ struct ContentView: View {
 
                         })
                     }
-
+                    
+                    //let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
                     Spacer()
                     HStack {
-                        VStack {
-                            Text("Version: 1.0.0")
+                        VStack(spacing:2) {
+                            Text("Version: \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)")
                                 .font(.system(size: 13))
                                 .foregroundColor(Color("maintext"))
-                            Text("")
+                            Text("gengphp.com")
                                 .font(.system(size: 13))
                                 .foregroundColor(Color("maintext"))
                                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
@@ -116,7 +117,8 @@ struct ContentView: View {
                     self.gengToast = true
                     self.currentIndex = 0
                 }
-
+                
+                
                 serverObj.debugLog += "\n top \n"
             }.sheet(isPresented: $showChecking) {
                 // checking sercices,nginx,php and mysql
@@ -141,6 +143,7 @@ struct ContentView: View {
             //nginxConfig()
             // gengModalBrew(log: self.$dummyLog)
             // debug
+            
             /*
             ScrollView {
                 VStack {
@@ -341,7 +344,7 @@ struct initChecking: View {
                         runGengShell(log: self.$checkingLogPhp).brewServiceList {
                             let bData = Tools.getBrewListData(self.checkingLogPhp)
 
-                            serverObj.debugLog += "nginx: \n" + self.checkingLogPhp + "\n"
+                            serverObj.debugLog += "php dedug: \n" + self.checkingLogPhp + "\n"
 
                             let serviceName = bData.filter {
                                 $0["Name"]?.contains(pattern: "php") ?? false
@@ -354,7 +357,7 @@ struct initChecking: View {
                                 $0["Name"] ?? ""
                             }
 
-                            // print("versionList",versionList)
+                            //print("versionList",versionList)
                             var combineVersionList = [[String: String]]()
                             for vitem in versionList {
                                 var temp = ""

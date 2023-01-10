@@ -1,0 +1,1 @@
+-- do shell script "/bin/zsh -c brew install mysql"tell application "Terminal"    activate    set currentTab to do script ("brew install mysql")end tell
