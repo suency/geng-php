@@ -373,6 +373,8 @@ struct initChecking: View {
                             }
 
                             serverObj.php.versionBrewList = combineVersionList
+                            
+                            //print("combineVersionList",combineVersionList)
 
                             if serviceName.isEmpty {
                                 // print("php not installed")
@@ -395,7 +397,8 @@ struct initChecking: View {
                                 }
 
                                 serverObj.php.version = (Dollar.keys(findVersion ?? ["php": "8.2.0"])[0], found[0])
-
+                                
+                                //print("serverObj.php.version",serverObj.php.version)
                                 var foundStatus = false
                                 for sitem in serviceName {
                                     if sitem["Status"]! == "started" {

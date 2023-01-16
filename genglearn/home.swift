@@ -437,11 +437,13 @@ struct home: View {
                                     .contentShape(Rectangle())
                                     .onTapGesture {
                                         serverObj.loading = true
-                                        runGengShell(log: self.$consoleInfoPipe).phpStart {
+                                        //print("vp",serverObj.php.version)
+                                        runGengShell(log: self.$consoleInfoPipe).runCode("brew services start \(serverObj.php.version.0)"){
                                             serverObj.php.status = "Running"
                                             serverObj.loading = false
                                             print("started")
                                         }
+
                                     }
                                     .foregroundColor(Color.white)
                                     .background(Color("main4"))
@@ -451,14 +453,16 @@ struct home: View {
                             Text("restart").frame(width: 60, height: 22)
                                 .contentShape(Rectangle())
                                 .onTapGesture {
-                                    serverObj.loading = true
-                                    runGengShell(log: self.$consoleInfoPipe).phpStop {
+                                    serverObj.loading = true                   
+                                    runGengShell(log: self.$consoleInfoPipe).runCode("brew services stop \(serverObj.php.version.0)") {
                                         serverObj.php.status = "Stopped"
-                                        runGengShell(log: self.$consoleInfoPipe).phpStart {
+                                        runGengShell(log: self.$consoleInfoPipe).runCode("brew services start \(serverObj.php.version.0)"){
                                             serverObj.php.status = "Running"
                                             serverObj.loading = false
+                                            print("started")
                                         }
                                     }
+                                    
                                 }
                                 .foregroundColor(Color.white)
                                 .background(Color("main4"))
